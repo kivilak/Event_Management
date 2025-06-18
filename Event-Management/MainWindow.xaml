@@ -1,0 +1,37 @@
+﻿<Window x:Class="Event_Management.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Event_Management"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="768" Width="1366">
+    <Window.Resources>
+        <ResourceDictionary Source="/Style.xaml" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="0, 0, 0, 1">
+            <Label Content="EventFlow" Style="{StaticResource TitleStyle}" HorizontalAlignment="Left" Margin="17,10,0,10"/>
+        </Border>
+        <StackPanel Grid.Column="0" Grid.Row="1" Style="{StaticResource NavigationStyle}">
+            <Button x:Name="DashboardNavigation" Content="🏠 Dashboard" Style="{StaticResource ActiveNavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="EventsNavigation" Content="&#xe81e; Events" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="GuestsNavigation" Content="Guests" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="TasksNavigation" Content="Tasks" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="BudgetsNavigation" Content="Budgets" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="ReportsNavigation" Content="Reports" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+            <Button x:Name="NotificationsNavigation" Content="Notifications" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource DashboardStyle}"/>
+    </Grid>
+</Window>
