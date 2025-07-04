@@ -1,27 +1,22 @@
-﻿using System.Text;
+﻿using Event_Management.View;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Event_Management
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private Button _activeButton;
+        private ContentControl _mainContentArea;
+
         public MainWindow()
         {
             InitializeComponent();
             Console.WriteLine("AAAA");
+
             _activeButton = DashboardNavigation;
+            _mainContentArea = MainContentArea ?? throw new NullReferenceException("MainContentArea not found in XAML.");
         }
 
         public void NavigateToVeiw(object sender, RoutedEventArgs e)
@@ -39,8 +34,10 @@ namespace Event_Management
                 case "EventsNavigation":
                     Console.WriteLine("Events");
                     break;
+                case "GuestsNavigation":
+                    _mainContentArea.Content = new GuestsUserControl();
+                    break;
             }
-
         }
 
         private void SetActiveButton(Button newActiveButton)

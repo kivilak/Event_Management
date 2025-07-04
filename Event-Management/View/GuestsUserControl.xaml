@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="Event_Management.View.GuestsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Event_Management.View"
+             xmlns:TestModel="clr-namespace:Event_Management.TestingModel"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+<UserControl.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="/Styles/GuestManagementStyles.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+</UserControl.Resources>
+
+
+    <Grid Background="#F9FAFB">
+        <StackPanel Margin="20">
+            <TextBlock Text="Guest Management" Style="{StaticResource TitleText}"/>
+            <TextBlock Text="Select an event to view and manage its guest list"
+                       Style="{StaticResource SubtitleText}" Margin="0,5,0,20"/>
+
+            <!-- Filters -->
+            <DockPanel Margin="0,0,0,15">
+                <TextBox Width="250" Height="35" Margin="0,0,20,0"
+                         VerticalAlignment="Center"
+                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
+                <ComboBox Width="150" Height="35" Margin="0,0,10,0"
+                          VerticalAlignment="Center"
+                          SelectedItem="{Binding SelectedType, Mode=TwoWay}">
+                    <ComboBoxItem Content="All Types"/>
+                    <ComboBoxItem Content="Conference"/>
+                    <ComboBoxItem Content="Corporate"/>
+                    <ComboBoxItem Content="Wedding"/>
+                    <ComboBoxItem Content="Fundraiser"/>
+                </ComboBox>
+                <ComboBox Width="150" Height="35"
+                          VerticalAlignment="Center"
+                          SelectedItem="{Binding SelectedStatus, Mode=TwoWay}">
+                    <ComboBoxItem Content="All Status"/>
+                    <ComboBoxItem Content="Upcoming"/>
+                    <ComboBoxItem Content="Completed"/>
+                </ComboBox>
+            </DockPanel>
+
+            <!-- DataGrid -->
+            <DataGrid AutoGenerateColumns="False"
+          Style="{StaticResource EventsDataGrid}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" Width="30*"/>
+                    <DataGridTextColumn Header="Date  Time" Binding="{Binding DateTime}" Width="15*"/>
+                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="25*"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="10*"/>
+                    <DataGridTemplateColumn Header="Status" Width="10*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Border Background="#E0E8FF" Padding="5,2" CornerRadius="5">
+                                    <TextBlock Text="{Binding Status}" Foreground="#4361EE" FontWeight="SemiBold"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Guests" Binding="{Binding GuestSummary}" Width="10*"/>
+                    <DataGridTemplateColumn Header="Actions" Width="10*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Select"
+                            Style="{StaticResource SelectButtonStyle}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+                <DataGrid.Items>
+                    <TestModel:Event Name="Tech Expo 2025" DateTime="2025-08-20 10:00 AM" Location="Colombo City Center"
+                     Type="Conference" Status="Upcoming" Guests="120" Capacity="500"/>
+                    <TestModel:Event Name="Corporate Meetup" DateTime="2025-07-15 02:00 PM" Location="Hilton Hotel"
+                     Type="Corporate" Status="Upcoming" Guests="75" Capacity="200"/>
+                    <TestModel:Event Name="Fundraiser Night" DateTime="2025-06-30 07:00 PM" Location="Galle Face Hotel"
+                     Type="Fundraiser" Status="Completed" Guests="180" Capacity="250"/>
+                </DataGrid.Items>
+            </DataGrid>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
+
+    
+    

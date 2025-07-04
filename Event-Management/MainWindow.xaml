@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Event_Management"
         mc:Ignorable="d"
         Title="MainWindow" Height="768" Width="1366">
+    
     <Window.Resources>
         <ResourceDictionary Source="/Style.xaml" />
     </Window.Resources>
@@ -32,6 +33,8 @@
             <Button x:Name="ReportsNavigation" Content="Reports" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
             <Button x:Name="NotificationsNavigation" Content="Notifications" Style="{StaticResource NavigationButton}" Click="NavigateToVeiw" />
         </StackPanel>
-        <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource DashboardStyle}"/>
+        <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource DashboardStyle}">
+            <ContentControl x:Name="MainContentArea" Grid.Column="1" Margin="10"/>
+        </Grid>
     </Grid>
 </Window>
