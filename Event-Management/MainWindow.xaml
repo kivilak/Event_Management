@@ -35,6 +35,7 @@
         </StackPanel>
         <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource DashboardStyle}">
             <ContentControl x:Name="MainContentArea" Grid.Column="1" Margin="10"/>
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
         </Grid>
     </Grid>
 </Window>

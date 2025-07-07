@@ -7,86 +7,114 @@
              xmlns:TestModel="clr-namespace:Event_Management.TestingModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
-<UserControl.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="/Styles/GuestManagementStyles.xaml"/>
-        </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-</UserControl.Resources>
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/GuestManagementStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid Background="#F9FAFB">
         <StackPanel Margin="20">
-            <TextBlock Text="Guest Management" Style="{StaticResource TitleText}"/>
+            <!-- Header -->
+            <TextBlock Text="Guest Management" Style="{StaticResource TitleText}" />
             <TextBlock Text="Select an event to view and manage its guest list"
-                       Style="{StaticResource SubtitleText}" Margin="0,5,0,20"/>
+                       Style="{StaticResource SubtitleText}"
+                       Margin="0,5,0,20" />
 
             <!-- Filters -->
-            <DockPanel Margin="0,0,0,15">
-                <TextBox Width="250" Height="35" Margin="0,0,20,0"
-                         VerticalAlignment="Center"
-                         Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"/>
-                <ComboBox Width="150" Height="35" Margin="0,0,10,0"
-                          VerticalAlignment="Center"
-                          SelectedItem="{Binding SelectedType, Mode=TwoWay}">
-                    <ComboBoxItem Content="All Types"/>
-                    <ComboBoxItem Content="Conference"/>
-                    <ComboBoxItem Content="Corporate"/>
-                    <ComboBoxItem Content="Wedding"/>
-                    <ComboBoxItem Content="Fundraiser"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,15" VerticalAlignment="Center" >
+
+                <TextBox Style="{StaticResource ModernTextBox}"
+             Width="250" Height="35"
+             Margin="0,0,20,0"
+             VerticalAlignment="Center"
+             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox Style="{StaticResource ModernComboBox}"
+              Width="150" Height="35"
+              Margin="0,0,10,0"
+              VerticalAlignment="Center"
+              SelectedItem="{Binding SelectedType, Mode=TwoWay}">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>All Types</sys:String>
+                            <sys:String>Conference</sys:String>
+                            <sys:String>Corporate</sys:String>
+                            <sys:String>Wedding</sys:String>
+                            <sys:String>Fundraiser</sys:String>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
                 </ComboBox>
-                <ComboBox Width="150" Height="35"
-                          VerticalAlignment="Center"
-                          SelectedItem="{Binding SelectedStatus, Mode=TwoWay}">
-                    <ComboBoxItem Content="All Status"/>
-                    <ComboBoxItem Content="Upcoming"/>
-                    <ComboBoxItem Content="Completed"/>
+
+                <ComboBox Style="{StaticResource ModernComboBox}"
+                  Width="150" Height="35"
+                  VerticalAlignment="Center"
+                  Background="white"
+                  SelectedItem="{Binding SelectedStatus, Mode=TwoWay}">
+                        <ComboBox.ItemsSource>
+                            <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                                <sys:String>All Status</sys:String>
+                                <sys:String>Upcoming</sys:String>
+                                <sys:String>Ongoing</sys:String>
+                                <sys:String>Planning</sys:String>
+                                <sys:String>Completed</sys:String>
+                            </x:Array>
+                        </ComboBox.ItemsSource>
                 </ComboBox>
-            </DockPanel>
+
+            </StackPanel>
 
             <!-- DataGrid -->
-            <DataGrid AutoGenerateColumns="False"
-          Style="{StaticResource EventsDataGrid}">
+            <DataGrid ItemsSource="{Binding FilteredEvents}"
+                      AutoGenerateColumns="False"
+                      Style="{StaticResource EventsDataGrid}"
+                      RowStyle="{StaticResource SelectableRowStyle}"
+                      CellStyle="{StaticResource PlainDataGridCellStyle}"
+                      CanUserAddRows="False"
+                      CanUserResizeRows="False"
+                      GridLinesVisibility="None"
+                      SelectionChanged="DataGrid_SelectionChanged">
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" Width="30*"/>
-                    <DataGridTextColumn Header="Date  Time" Binding="{Binding DateTime}" Width="15*"/>
-                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="25*"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="10*"/>
-                    <DataGridTemplateColumn Header="Status" Width="10*">
+                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" Width="3*" />
+                    <DataGridTextColumn Header="Date_Time" Binding="{Binding DateTime}" Width="2*" />
+                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="2*" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="1.5*" />
+
+                    <DataGridTemplateColumn Header="Status" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Border Background="#E0E8FF" Padding="5,2" CornerRadius="5">
-                                    <TextBlock Text="{Binding Status}" Foreground="#4361EE" FontWeight="SemiBold"/>
-                                </Border>
+                                <TextBlock Text="{Binding Status}" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Upcoming">
+                                                    <Setter Property="Foreground" Value="#4361EE"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                    <Setter Property="Foreground" Value="#16A34A"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Planning">
+                                                    <Setter Property="Foreground" Value="#CA8A04"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="Foreground" Value="#6B7280"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Guests" Binding="{Binding GuestSummary}" Width="10*"/>
-                    <DataGridTemplateColumn Header="Actions" Width="10*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="Select"
-                            Style="{StaticResource SelectButtonStyle}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Guests" Binding="{Binding GuestSummary}" Width="1.5*" />
                 </DataGrid.Columns>
-
-                <DataGrid.Items>
-                    <TestModel:Event Name="Tech Expo 2025" DateTime="2025-08-20 10:00 AM" Location="Colombo City Center"
-                     Type="Conference" Status="Upcoming" Guests="120" Capacity="500"/>
-                    <TestModel:Event Name="Corporate Meetup" DateTime="2025-07-15 02:00 PM" Location="Hilton Hotel"
-                     Type="Corporate" Status="Upcoming" Guests="75" Capacity="200"/>
-                    <TestModel:Event Name="Fundraiser Night" DateTime="2025-06-30 07:00 PM" Location="Galle Face Hotel"
-                     Type="Fundraiser" Status="Completed" Guests="180" Capacity="250"/>
-                </DataGrid.Items>
             </DataGrid>
-
         </StackPanel>
     </Grid>
 </UserControl>
-
-    
-    
