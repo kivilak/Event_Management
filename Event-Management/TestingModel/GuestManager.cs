@@ -78,5 +78,10 @@ namespace Event_Management.TestingModel
         {
             return Guests;
         }
+
+        public void addGuest(Guest guest)
+        {
+            Guests.Add(guest);
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Event_Management.TestingModel;
+using Event_Management.View.window;
 
 namespace Event_Management.View
 {
@@ -96,6 +98,31 @@ namespace Event_Management.View
             guests = new ObservableCollection<Guest>(allGuests);
             GuestTable.ItemsSource = guests;
         }
+
+        private void AddGuestButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                AddGuest addGuestWindow = new AddGuest(guests, selectedEvent);
+                addGuestWindow.ShowDialog(); // this is where the crash likely happens
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+
+        private void ExportButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Example: Export guests to CSV
+            var csv = string.Join(Environment.NewLine, guests.Select(g =>
+                $"{g.Name},{g.Email},{g.Phone},{g.Category},{g.RsvpStatus},{g.CheckedIn}"));
+
+            File.WriteAllText("guests_export.csv", csv);
+            MessageBox.Show("Guest list exported to guests_export.csv");
+        }
+
 
     }
 }
