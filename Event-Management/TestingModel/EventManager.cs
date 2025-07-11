@@ -80,5 +80,33 @@ namespace Event_Management.TestingModel
             return Events[Id];
         }
 
+        //methods for events summary
+
+        public static int GetTotalEventCount()
+        {
+            return Events.Count;
+        }
+
+        public static int GetTotalUpcomingEventCount()
+        {
+            return Events.Count(e => e.Status == "Upcoming");
+
+        }
+
+        public static int GetTotalGuest()
+        {
+            int tGuest = 0; ;
+            foreach (Event e in Events)
+            {
+                tGuest = tGuest + e.Guests;
+            }
+            return tGuest;
+        }
+
+        public static double getTotalBudget()
+        {
+            return 10000.00;
+        }
+
     }
 }
