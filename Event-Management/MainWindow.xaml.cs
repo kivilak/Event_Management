@@ -20,7 +20,7 @@ namespace Event_Management
             _mainContentArea = MainContentArea ?? throw new NullReferenceException("MainContentArea not found in XAML.");
 
             // Load initial content
-            LoadGuestsView();
+           // LoadGuestsView();
         }
 
         // Handles sidebar button clicks
@@ -38,8 +38,7 @@ namespace Event_Management
                     break;
 
                 case "EventsNavigation":
-                    Console.WriteLine("Events view clicked.");
-                    // Add your events loading logic here
+                    LoadEventsView();
                     break;
 
                 case "GuestsNavigation":
@@ -54,6 +53,14 @@ namespace Event_Management
             var guestsControl = new GuestsUserControl();
             guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = guestsControl;
+        }
+
+        private void LoadEventsView()
+        {
+
+            var eventControl = new EventUserController();
+            //guestsControl.EventSelected += NavigateToEventDetails;
+            _mainContentArea.Content = eventControl;
         }
 
         // Called when a row is clicked in GuestsUserControl
