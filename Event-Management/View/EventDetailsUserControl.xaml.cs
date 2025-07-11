@@ -99,12 +99,14 @@ namespace Event_Management.View
             GuestTable.ItemsSource = guests;
         }
 
+        //Window for add guest
         private void AddGuestButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                AddGuest addGuestWindow = new AddGuest(guests, selectedEvent);
-                addGuestWindow.ShowDialog(); // this is where the crash likely happens
+                AddGuest addGuestWindow = new AddGuest(guests, selectedEvent, null);
+                addGuestWindow.ShowDialog();
+                //LoadGuests(); // Refresh after closing
             }
             catch (Exception ex)
             {
@@ -113,14 +115,33 @@ namespace Event_Management.View
         }
 
 
+        //Function for export data 
         private void ExportButton_Click(object sender, RoutedEventArgs e)
         {
-            // Example: Export guests to CSV
             var csv = string.Join(Environment.NewLine, guests.Select(g =>
                 $"{g.Name},{g.Email},{g.Phone},{g.Category},{g.RsvpStatus},{g.CheckedIn}"));
 
             File.WriteAllText("guests_export.csv", csv);
             MessageBox.Show("Guest list exported to guests_export.csv");
+        }
+
+       //function for view guest details
+        public void ShowGuestDeteils_Click(object sender, RoutedEventArgs e)
+        {
+            int? CurrentGuestId = null;
+            if (GuestTable.SelectedItem is Guest selectedGuest)
+            {
+                CurrentGuestId = selectedGuest.GuestId;
+            }
+            try
+            {
+                AddGuest addGuestWindow = new AddGuest(guests, selectedEvent, CurrentGuestId);
+                addGuestWindow.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
 
