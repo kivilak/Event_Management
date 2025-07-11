@@ -257,6 +257,7 @@
                           ColumnHeaderHeight="40"
                           RowHeight="36"
                           IsReadOnly="True"
+                          MouseDoubleClick="ShowGuestDeteils_Click"        
                           >
 
                             <DataGrid.Resources>
@@ -289,7 +290,7 @@
                                 </Style>
                             </DataGrid.Resources>
 
-                            <DataGrid.Columns>
+                            <DataGrid.Columns >
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
                                 <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="2*" />
                                 <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="1.5*" />

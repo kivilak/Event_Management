@@ -82,7 +82,8 @@
                                        HorizontalAlignment="Right"/>
                             <TextBox x:Name="FirstNameTextBox" Height="45" Padding="15,12" 
                                      FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                      Foreground="Gray"/>
+                                      Foreground="Gray" 
+                                      Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
                         <!-- Last Name -->
@@ -92,76 +93,66 @@
                                        HorizontalAlignment="Right"/>
                             <TextBox x:Name="LastNameTextBox" Height="45" Padding="15,12" 
                                      FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                      Foreground="Gray"/>
+                                     Foreground="Gray"
+                                     Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
                         </StackPanel>
 
-                        <!-- Email Address -->
-                        <StackPanel Grid.Row="2" Grid.Column="0">
-                            <TextBlock Text="Email Address" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                            <TextBlock Text="*" Foreground="Red" FontSize="12" Margin="0,-20,0,8" 
-                                       HorizontalAlignment="Right"/>
-                            <Grid>
-                                <TextBox x:Name="EmailTextBox" Height="45" Padding="40,12,15,12" 
-                                         FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                         Foreground="Gray"/>
-                                <TextBlock Text="✉" FontSize="16" Foreground="Gray" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                           Margin="15,0,0,0"/>
-                            </Grid>
-                        </StackPanel>
-
-                        <!-- Phone Number -->
-                        <StackPanel Grid.Row="2" Grid.Column="2">
-                            <TextBlock Text="Phone Number" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                            <Grid>
-                                <TextBox x:Name="PhoneTextBox" Height="45" Padding="40,12,15,12" 
-                                         FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                          Foreground="Gray"/>
-                                <TextBlock Text="📞" FontSize="16" Foreground="Gray" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                           Margin="15,0,0,0"/>
-                            </Grid>
-                        </StackPanel>
-
-                        <!-- Guest Category -->
-                        <StackPanel Grid.Row="4" Grid.Column="0">
-                            <TextBlock Text="Guest Category" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                            <ComboBox x:Name="CategoryComboBox" Height="45" Padding="15,0" FontSize="14"
-                                      BorderBrush="#E0E0E0" BorderThickness="1" Foreground="Gray"
-                                      SelectedIndex="-1">
-                                <ComboBoxItem IsEnabled="False" IsSelected="True" Content="Select category"/>
-                                <ComboBoxItem Content="VIP"/>
-                                <ComboBoxItem Content="Speaker"/>
-                                <ComboBoxItem Content="Sponsor"/>
-                                <ComboBoxItem Content="Media"/>
-                                <ComboBoxItem Content="Staff"/>
-                                <ComboBoxItem Content="General Attendee"/>
-                                <ComboBoxItem Content="Family"/>
-                                <ComboBoxItem Content="Plus One"/>
-                            </ComboBox>
-                        </StackPanel>
-
-                        <!-- Job Title -->
-                        <StackPanel Grid.Row="4" Grid.Column="2">
-                            <TextBlock Text="Job Title" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                            <TextBox x:Name="JobTitleTextBox" Height="45" Padding="15,12" 
+                            <StackPanel Grid.Row="2" Grid.Column="0">
+                                <TextBlock Text="Email Address" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <TextBlock Text="*" Foreground="Red" FontSize="12" Margin="0,-20,0,8" 
+                                   HorizontalAlignment="Right"/>
+                                                    <Grid>
+                                                        <TextBox x:Name="EmailTextBox"
+                                     Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="45" Padding="15,12,15,12" 
                                      FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                      Foreground="Gray"/>
-                        </StackPanel>
+                                     Foreground="Gray"/>
+                                </Grid>
+                            </StackPanel>
 
-                        <!-- RSVP Status -->
-                        <StackPanel Grid.Row="6" Grid.Column="0">
-                            <TextBlock Text="RSVP Status" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                            <ComboBox x:Name="RsvpComboBox" Height="45" Padding="15,0" FontSize="14"
-                                      BorderBrush="#E0E0E0" BorderThickness="1" Foreground="Gray"
-                                      SelectedIndex="-1">
-                                <ComboBoxItem IsEnabled="False" IsSelected="True" Content="Select RSVP status"/>
-                                <ComboBoxItem Content="Pending"/>
-                                <ComboBoxItem Content="Accepted"/>
-                                <ComboBoxItem Content="Declined"/>
-                            </ComboBox>
-                        </StackPanel>
-                            
+                            <!-- Phone Number -->
+                            <StackPanel Grid.Row="2" Grid.Column="2">
+                                <TextBlock Text="Phone Number" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <Grid>
+                                    <TextBox x:Name="PhoneTextBox"
+                                     Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="45" Padding="15,12,15,12" 
+                                     FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
+                                     Foreground="Gray"/>
+                                </Grid>
+                            </StackPanel>
+
+
+                            <!-- Guest Category -->
+                            <StackPanel Grid.Row="4" Grid.Column="0">
+                                <TextBlock Text="Guest Category" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="CategoryComboBox"
+                              ItemsSource="{Binding CategoryOptions}" 
+                              SelectedItem="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                              Height="45" Padding="15,0" FontSize="14"
+                              BorderBrush="#E0E0E0" BorderThickness="1" Foreground="Gray"/>
+                            </StackPanel>
+
+                            <!-- Job Title -->
+                            <StackPanel Grid.Row="4" Grid.Column="2">
+                                <TextBlock Text="Job Title" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <TextBox x:Name="JobTitleTextBox" Height="45" Padding="15,12" 
+                                 FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
+                                 Foreground="Gray"
+                                 Text="{Binding JobTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </StackPanel>
+
+                            <!-- RSVP Status -->
+                            <StackPanel Grid.Row="6" Grid.Column="0">
+                                <TextBlock Text="RSVP Status" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="RsvpComboBox"
+                                  ItemsSource="{Binding RsvpStatusOptions}" 
+                                  SelectedItem="{Binding RsvpStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Height="45" Padding="15,0" FontSize="14"
+                                  BorderBrush="#E0E0E0" BorderThickness="1" Foreground="Gray"/>
+                            </StackPanel>
+
+
                         </Grid>
                         <!-- Save Button -->
                         <Button Content="Save Guest"
@@ -174,7 +165,7 @@
                             FontWeight="SemiBold"
                             BorderThickness="0"
                             Cursor="Hand"
-                            Click="SaveButton_Click"/>
+                           Command="{Binding SaveCommand}"/>
                     </StackPanel>
             </Border>
         </Grid>
@@ -191,20 +182,23 @@
                            Foreground="#4A90E2" Margin="0,0,0,20"/>
 
                 <!-- Event Details -->
-                <StackPanel Margin="0,0,0,20">
-                    <TextBlock Text="Annual Tech Conference 2024" FontSize="16" FontWeight="SemiBold" 
-                               Margin="0,0,0,10"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                        <TextBlock Text="🇺🇸" FontSize="14" Margin="0,0,5,0"/>
-                        <TextBlock Text="3/15/2024" FontSize="14" Foreground="Gray"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="📍" FontSize="14" Margin="0,0,5,0"/>
-                        <TextBlock Text="Convention Center" FontSize="14" Foreground="Gray"/>
-                    </StackPanel>
-                </StackPanel>
+                    <!-- Event Details -->
+                    <StackPanel Margin="0,0,0,20">
+                        <TextBlock Text="{Binding EventName}" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
 
-                <!-- Guest Summary -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                            <TextBlock Text="🇺🇸" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding EventDate}" FontSize="14" Foreground="Gray"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="📍" FontSize="14" Margin="0,0,5,0"/>
+                            <TextBlock Text="{Binding EventLocation}" FontSize="14" Foreground="Gray"/>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <!-- Guest Summary -->
                 <Border BorderBrush="#E0E0E0" BorderThickness="0,1,0,0" Padding="0,20,0,0">
                     <StackPanel>
                         <TextBlock Text="Guest Summary" FontSize="16" FontWeight="SemiBold" 
@@ -229,12 +223,12 @@
 
                             <TextBlock Grid.Row="1" Grid.Column="0" Text="Event:" FontWeight="SemiBold" 
                                        Margin="0,0,10,8"/>
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="Annual Tech Conference 2024" 
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding EventName}" 
                                        Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="2" Grid.Column="0" Text="Category:" FontWeight="SemiBold" 
                                        Margin="0,0,10,8"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="" Margin="0,0,0,8"/>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding EventType}" Margin="0,0,0,8"/>
 
                             <TextBlock Grid.Row="3" Grid.Column="0" Text="RSVP:" FontWeight="SemiBold" 
                                        Margin="0,0,10,0"/>
