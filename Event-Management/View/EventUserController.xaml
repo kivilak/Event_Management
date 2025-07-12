@@ -153,54 +153,36 @@
                 </StackPanel>
 
                 <!-- FILTERS & SEARCH SECTION -->
-                <StackPanel Margin="0,0,0,24">
-                    <TextBlock Text="Filters\Search" 
-                   Style="{StaticResource SubHeaderTextStyle}"/>
+                <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Top" HorizontalAlignment="Left" >
 
-                    <UniformGrid Columns="4">
-                        <!-- Search Box -->
-                        <TextBox x:Name="SearchTextBox"
-                     Style="{StaticResource SearchBoxStyle}"
-                     Tag="Search events..."
-                     />
+                    <!-- Search -->
+                    <StackPanel Margin="10,0" Width="250">
+                        <TextBlock Text="Search Events:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                 Padding="4" />
+                    </StackPanel>
 
-                        <!-- Status Filter -->
-                        <ComboBox x:Name="StatusFilterComboBox"
-                      Style="{StaticResource FilterComboBoxStyle}"
-                      >
-                            <ComboBoxItem Content="All Status" IsSelected="True"/>
-                            <ComboBoxItem Content="Upcoming"/>
-                            <ComboBoxItem Content="Planning"/>
-                            <ComboBoxItem Content="Confirmed"/>
-                            <ComboBoxItem Content="Completed"/>
-                        </ComboBox>
+                    <!-- Status Filter -->
+                    <StackPanel Margin="10,0" Width="200">
+                        <TextBlock Text="Filter by Status:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <ComboBox ItemsSource="{Binding StatusList}"
+                  SelectedItem="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged}"
+                  Padding="4" />
+                    </StackPanel>
 
-                        <!-- Type Filter -->
-                        <ComboBox x:Name="TypeFilterComboBox"
-                      Style="{StaticResource FilterComboBoxStyle}"
-                     >
-                            <ComboBoxItem Content="All Types" IsSelected="True"/>
-                            <ComboBoxItem Content="Conference"/>
-                            <ComboBoxItem Content="Launch"/>
-                            <ComboBoxItem Content="Corporate"/>
-                            <ComboBoxItem Content="Fundraiser"/>
-                            <ComboBoxItem Content="Festival"/>
-                            <ComboBoxItem Content="Social"/>
-                        </ComboBox>
+                    <!-- Type Filter -->
+                    <StackPanel Margin="10,0" Width="200">
+                        <TextBlock Text="Filter by Type:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <ComboBox ItemsSource="{Binding TypeList}"
+                  SelectedItem="{Binding SelectedType, UpdateSourceTrigger=PropertyChanged}"
+                  Padding="4" />
+                    </StackPanel>
 
-                        <!-- Future Enhancement: Date Filter -->
-                        <ComboBox x:Name="DateFilterComboBox"
-                      Style="{StaticResource FilterComboBoxStyle}"
-                      
-                      IsEnabled="False"
-                      Opacity="0.5">
-                            <ComboBoxItem Content="All Dates" IsSelected="True"/>
-                            <ComboBoxItem Content="This Week"/>
-                            <ComboBoxItem Content="This Month"/>
-                            <ComboBoxItem Content="Past Events"/>
-                        </ComboBox>
-                    </UniformGrid>
                 </StackPanel>
+
+
+
+
 
                 <UserControl >
                     <UserControl.Resources>
@@ -276,10 +258,10 @@
                         <!-- DATA TEMPLATE -->
                         <DataTemplate x:Key="EventItemTemplate">
                             <Border CornerRadius="6"
-                    BorderBrush="#E5E7EB"
-                    BorderThickness="1"
-                    Margin="0,0,0,10"
-                    Background="White">
+                                BorderBrush="#E5E7EB"
+                                BorderThickness="1"
+                                Margin="0,0,0,10"
+                                Background="White">
 
                                 <Grid >
                                     <Grid.ColumnDefinitions>
