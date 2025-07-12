@@ -59,12 +59,11 @@ namespace Event_Management
         {
 
             var eventControl = new EventUserController();
-            //guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = eventControl;
         }
 
         // Called when a row is clicked in GuestsUserControl
-        private void NavigateToEventDetails(Event selectedEvent)
+        public void NavigateToEventDetails(Event selectedEvent)
         {
             var detailsControl = new EventDetailsUserControl(selectedEvent);
             _mainContentArea.Content = detailsControl;
