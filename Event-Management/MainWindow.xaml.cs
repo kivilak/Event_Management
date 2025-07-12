@@ -19,8 +19,8 @@ namespace Event_Management
             _activeButton = DashboardNavigation;
             _mainContentArea = MainContentArea ?? throw new NullReferenceException("MainContentArea not found in XAML.");
 
-            // Load initial content
-           // LoadGuestsView();
+            // Load initial content (optional)
+            // LoadGuestsView();
         }
 
         // Handles sidebar button clicks
@@ -44,6 +44,14 @@ namespace Event_Management
                 case "GuestsNavigation":
                     LoadGuestsView();
                     break;
+
+                case "BudgetsNavigation":
+                    LoadBudgetView();
+                    break;
+
+                case "ReportsNavigation":
+                    LoadReportView();
+                    break;
             }
         }
 
@@ -55,11 +63,25 @@ namespace Event_Management
             _mainContentArea.Content = guestsControl;
         }
 
+        // Loads EventUserControl
         private void LoadEventsView()
         {
-
             var eventControl = new EventUserController();
             _mainContentArea.Content = eventControl;
+        }
+
+        //Loads BudgetsUserContrl
+        private void LoadBudgetView()
+        {
+            var budgetControl = new BudgetsUserControl();
+            _mainContentArea.Content = budgetControl;
+        }
+
+        // Loads ReportUserControl
+        private void LoadReportView()
+        {
+            var reportControl = new ReportUserControl();
+            _mainContentArea.Content = reportControl;
         }
 
         // Called when a row is clicked in GuestsUserControl
@@ -79,7 +101,7 @@ namespace Event_Management
             _activeButton.Style = (Style)FindResource("ActiveNavigationButton");
         }
 
-        //Navigate to the Guest window in many places
+        // Navigate to the Guest window in many places
         public void NavigateToGuestsView()
         {
             var guestsControl = new GuestsUserControl();
@@ -87,5 +109,7 @@ namespace Event_Management
             _mainContentArea.Content = guestsControl;
         }
 
+       
+       
     }
 }

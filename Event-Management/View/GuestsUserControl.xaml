@@ -37,7 +37,7 @@
                       Width="150" Height="35"
                       Margin="0,0,10,0"
                       VerticalAlignment="Center"
-                      SelectedItem="{Binding SelectedType, Mode=TwoWay}">   
+                      SelectedItem="{Binding SelectedType, Mode=TwoWay}" SelectionChanged="ComboBox_SelectionChanged">   
                     <ComboBox.ItemsSource>
                         <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
                             <sys:String>All Types</sys:String>

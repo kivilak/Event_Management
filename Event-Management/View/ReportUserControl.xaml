@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="Event_Management.View.ReportUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Event_Management.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ReportStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#F9FAFB">
+
+        <StackPanel Margin="20">
+            <!-- Header -->
+            <TextBlock Text="Reports" Style="{StaticResource TitleText}" />
+            <TextBlock Text="Generate and export comprehensive event reports"
+                Style="{StaticResource SubtitleText}"
+                Margin="0,5,0,20" />
+
+            <!-- Button Panel -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
+                <Button Content="Print" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" />
+                <Button Content="Export PDF" Style="{StaticResource PrimaryButton}" />
+            </StackPanel>
+            
+            <!-- Configuration Box -->
+            <Border Background="White" CornerRadius="8" Padding="20" BorderBrush="#E0E0E0" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="Report Configuration" FontSize="20" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <ComboBox Style="{StaticResource StyledComboBox}" Width="210">
+                        <ComboBoxItem Content="All Events" IsSelected="True"/>
+                        <ComboBoxItem Content="Tech Conference 2024"/>
+                        <ComboBoxItem Content="Product Launch"/>
+                        <ComboBoxItem Content="Wedding Reception"/>
+                    </ComboBox>
+                </StackPanel>
+            </Border>
+            
+            <Grid Height="50" Background="#EFF4FF" Margin="0,10,0,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button Content="Event Summary" Grid.Column="0" Click="EventSummary_Click" Style="{StaticResource NavButtonStyle}" />
+                <Button Content="Guest Attendance" Grid.Column="1" Click="GuestAttendance_Click" Style="{StaticResource NavButtonStyle}" />
+                <Button Content="Task Progress" Grid.Column="2" Click="TaskProgress_Click" Style="{StaticResource NavButtonStyle}" />
+                <Button Content="Budget Analysis" Grid.Column="3" Click="BudgetAnalysis_Click" Style="{StaticResource NavButtonStyle}" />
+            </Grid>
+
+            <!-- Main Content -->
+            <Border Style="{StaticResource MainContentBorderStyle}">
+                <ContentControl x:Name="MainContent" />
+            </Border>
+
+        </StackPanel>
+
+
+    </Grid>
+</UserControl>
