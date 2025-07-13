@@ -36,6 +36,11 @@ namespace Event_Management.View
                 dataGrid.SelectedItem = null;
             }
         }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
 
