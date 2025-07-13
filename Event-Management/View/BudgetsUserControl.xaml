@@ -6,7 +6,134 @@
              xmlns:local="clr-namespace:Event_Management.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="white">
-        <TextBlock Text="Budgets Section" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Styles/BudgetStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#F7F9FC">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="Auto"/>
+            <!-- Cards -->
+            <RowDefinition Height="Auto"/>
+            <!-- Budget Utilization -->
+            <RowDefinition Height="Auto"/>
+            <!-- Budget Utilization -->
+        </Grid.RowDefinitions>
+
+        <!-- Header and Add Button -->
+        <Grid Grid.Row="0" Margin="10,0,10,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="Budget Tracker" Style="{StaticResource HeaderText}"/>
+                <TextBlock Text="Monitor event expenses and budget allocation"
+                           Style="{StaticResource SubHeaderText}"/>
+            </StackPanel>
+
+            <Button Grid.Column="1" Width="160" Style="{StaticResource AddButton}" Margin="10,0,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image Source="../Assets/plus.png" Width="16" Height="16" Margin="0,0,5,0"/>
+                    <TextBlock Text="Add Budget Item"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+        
+        <!--  Budget Cards -->
+        <Grid Grid.Row="1" Margin="10,0,10,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Total Budget -->
+            <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Total Budget" Style="{StaticResource CardTitle}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="$45,000" Style="{StaticResource CardValue}" />
+                        <Image Source="../Assets/trending-up.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="Estimated total" Style="{StaticResource CardSubText}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Spent -->
+            <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Spent" Style="{StaticResource CardTitle}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="$42,500" Style="{StaticResource CardValue}" />
+                        <Image Source="../Assets/trending-down.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="Actual spending" Style="{StaticResource CardSubText}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Remaining -->
+            <Border Grid.Column="2" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Remaining" Style="{StaticResource CardTitle}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="$2,500" Foreground="Green" Style="{StaticResource CardValue}" />
+                        <Image Source="../Assets/check.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="Available budget" Style="{StaticResource CardSubText}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Over Budget -->
+            <Border Grid.Column="3" Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Over Budget" Style="{StaticResource CardTitle}" />
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="2" Foreground="Red" Style="{StaticResource CardValue}" />
+                        <Image Source="../Assets/warning.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                    </StackPanel>
+                    <TextBlock Text="Items over budget" Style="{StaticResource CardSubText}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+        <!-- Budget Utilization Section -->
+        <Border Grid.Row="2" Background="White" CornerRadius="10" Padding="10" Margin="20,0,20,0"
+        BorderBrush="#E5E7EB" BorderThickness="1">
+            <StackPanel>
+                <TextBlock Text="Budget Utilization" Style="{StaticResource HeaderText2}" />
+                <TextBlock Text="Overall budget usage across all events" 
+                   Style="{StaticResource SubHeaderText}" Margin="0,0,0,10" />
+
+                <!-- Summary Row -->
+                <Grid Margin="0,5,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="$42,500 of $45,000 used"
+                       FontWeight="Bold" FontSize="16" />
+                    <TextBlock Grid.Column="1" Text="94.4%" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" />
+                </Grid>
+
+                <!-- Warning Box -->
+                <Border Background="#FFF5F5" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,5,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Assets/warning.png" Width="20" Height="20" Margin="0,0,10,0"/>
+                        <TextBlock Text="Warning: Budget utilization is high. Consider reviewing expenses."
+                           Foreground="#B91C1C" FontSize="14" TextWrapping="Wrap"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
     </Grid>
+    
 </UserControl>
