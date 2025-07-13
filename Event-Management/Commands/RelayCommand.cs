@@ -1,5 +1,4 @@
-﻿using Event_Management.TestingModel;
-using System;
+﻿using System;
 using System.Windows.Input;
 
 namespace Event_Management.Commands
@@ -8,20 +7,17 @@ namespace Event_Management.Commands
     {
         private readonly Action<object?> _execute;
         private readonly Predicate<object?>? _canExecute;
-        private Action<Event> onViewGuests;
+        private Action save;
 
         public RelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
         {
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException(nameof(execute));
             _canExecute = canExecute;
         }
 
-        public RelayCommand(Action<Event> onViewGuests)
-        {
-            this.onViewGuests = onViewGuests;
-        }
-
+ 
         public bool CanExecute(object? parameter) => _canExecute == null || _canExecute(parameter);
+
         public void Execute(object? parameter) => _execute(parameter);
 
         public event EventHandler? CanExecuteChanged
