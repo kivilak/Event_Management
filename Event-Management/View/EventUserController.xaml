@@ -96,7 +96,7 @@
                     Style="{StaticResource PrimaryButtonStyle}"
                     Width="150"
                     Margin="24,0,0,0"
-                   />
+                    Click="AddUserBtn_Click"/>
                     </StackPanel>
 
                     <TextBlock Text="Manage all your events and select one to view related data"
