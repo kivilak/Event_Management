@@ -6,7 +6,82 @@
              xmlns:local="clr-namespace:Event_Management.View.ReportWindows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="20">
-        <TextBlock Text="Budget Analysis Feature Coming Soon..." FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    <UserControl.Resources>
+        <ResourceDictionary Source="/Styles/BudgetStyles.xaml"/>
+    </UserControl.Resources>
+
+    <Grid Margin="10" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Budget vs Actual -->
+        <Border Grid.Column="0" Style="{StaticResource CardBorder}">
+            <StackPanel Margin="20">
+                <TextBlock Text="Budget vs Actual" Style="{StaticResource TitleText2}" />
+
+                <!-- Event 1 -->
+                <StackPanel Margin="0,20,0,10">
+                    <DockPanel>
+                        <TextBlock Text="Tech Conference 2024" Style="{StaticResource ItemTitle}" DockPanel.Dock="Left"/>
+                        <TextBlock Text="$54,000 / $75,000" Style="{StaticResource ItemValue}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <ProgressBar Value="72" Maximum="100" Height="8" Style="{StaticResource GreenProgress}" />
+                    <TextBlock Text="72.0% of budget used" Style="{StaticResource SubText}" />
+                </StackPanel>
+
+                <!-- Event 2 -->
+                <StackPanel Margin="0,10,0,10">
+                    <DockPanel>
+                        <TextBlock Text="Product Launch" Style="{StaticResource ItemTitle}" DockPanel.Dock="Left"/>
+                        <TextBlock Text="$28,000 / $35,000" Style="{StaticResource ItemValue}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <ProgressBar Value="80" Maximum="100" Height="8" Style="{StaticResource YellowProgress}" />
+                    <TextBlock Text="80.0% of budget used" Style="{StaticResource SubText}" />
+                </StackPanel>
+
+                <!-- Event 3 -->
+                <StackPanel Margin="0,10,0,0">
+                    <DockPanel>
+                        <TextBlock Text="Wedding Reception" Style="{StaticResource ItemTitle}" DockPanel.Dock="Left"/>
+                        <TextBlock Text="$15,000 / $40,000" Style="{StaticResource ItemValue}" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <ProgressBar Value="37.5" Maximum="100" Height="8" Style="{StaticResource GreenProgress}" />
+                    <TextBlock Text="37.5% of budget used" Style="{StaticResource SubText}" />
+                </StackPanel>
+
+            </StackPanel>
+        </Border>
+
+        <!-- Budget Summary -->
+        <Border Grid.Column="1" Style="{StaticResource CardBorder}">
+            <StackPanel Margin="20">
+                <TextBlock Text="Budget Summary" Style="{StaticResource TitleText}" />
+
+                <StackPanel Margin="0,20,0,0">
+                    <Border Style="{StaticResource SummaryBox}">
+                        <DockPanel>
+                            <TextBlock Text="Total Allocated" Style="{StaticResource SummaryText}" DockPanel.Dock="Left"/>
+                            <TextBlock Text="$150,000" Style="{StaticResource SummaryAmount}" DockPanel.Dock="Right"/>
+                        </DockPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource SummaryBoxBlue}">
+                        <DockPanel>
+                            <TextBlock Text="Total Spent" Style="{StaticResource SummaryText}" DockPanel.Dock="Left"/>
+                            <TextBlock Text="$97,000" Style="{StaticResource SummaryAmountBlue}" DockPanel.Dock="Right"/>
+                        </DockPanel>
+                    </Border>
+
+                    <Border Style="{StaticResource SummaryBoxGreen}">
+                        <DockPanel>
+                            <TextBlock Text="Remaining" Style="{StaticResource SummaryText}" DockPanel.Dock="Left"/>
+                            <TextBlock Text="$53,000" Style="{StaticResource SummaryAmountGreen}" DockPanel.Dock="Right"/>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>
