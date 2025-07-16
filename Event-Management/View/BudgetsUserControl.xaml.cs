@@ -12,6 +12,14 @@ namespace Event_Management.View
         public BudgetsUserControl()
         {
             InitializeComponent();
+            BudgetItemsGrid.ItemsSource = new List<dynamic>
+            {
+                new { CategoryName = "Venue", Event = "Tech Conference 2024", Estimated = "$15,000", Actual = "$14,500", Difference = "$-500", Status = "Under Budget" },
+                new { CategoryName = "Venue", Event = "Tech Conference 2024", Estimated = "$15,000", Actual = "$14,500", Difference = "$-500", Status = "Under Budget" },
+                new { CategoryName = "Venue", Event = "Tech Conference 2024", Estimated = "$15,000", Actual = "$14,500", Difference = "$-500", Status = "Under Budget" },
+                new { CategoryName = "Venue", Event = "Tech Conference 2024", Estimated = "$15,000", Actual = "$14,500", Difference = "$-500", Status = "Under Budget" }
+                
+            };
         }
     }
 }
