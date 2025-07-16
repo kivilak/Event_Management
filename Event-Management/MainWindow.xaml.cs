@@ -23,24 +23,6 @@ namespace Event_Management
 
             // Load initial content (optional)
             // LoadGuestsView();
-
-            var db = DatabaseManager.Instance;
-            var query = "SELECT * FROM Guest";
-            string text = string.Empty; 
-
-            using (var command = db.CreateCommand(query))
-            using (var reader = command.ExecuteReader())
-            {
-                while (reader.Read())
-                {
-                    Console.WriteLine(reader.GetInt32(0));
-                    Console.WriteLine(reader.GetString(1));
-                    text = reader.GetString(1);
-                }
-            }
-
-            
-            testLabel.Content = text; 
         }
 
         // Handles sidebar button clicks
