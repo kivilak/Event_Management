@@ -40,6 +40,7 @@
         <Grid Grid.Column="1" Grid.Row="1" Style="{StaticResource DashboardStyle}">
             <ContentControl x:Name="MainContentArea" Grid.Column="1" Margin="10"/>
             <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+            <Label x:Name="testLabel" Content="Label" HorizontalAlignment="Left" Margin="201,154,0,0" VerticalAlignment="Top" Height="111" Width="372"/>
         </Grid>
     </Grid>
 </Window>
