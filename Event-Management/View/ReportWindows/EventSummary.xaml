@@ -6,19 +6,67 @@
              xmlns:local="clr-namespace:Event_Management.View.ReportWindows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
+ 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/ReportStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#F9FAFB">
         <StackPanel Margin="20">
-            <TextBlock Text="📊 Event Summary Report" FontSize="24" FontWeight="Bold" Margin="0 0 0 10" Foreground="#1F2937"/>
-            <TextBlock Text="Overview of all events with key metrics" FontSize="14" Margin="0 0 0 20" Foreground="#6B7280"/>
-            <DataGrid x:Name="eventGrid" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" GridLinesVisibility="None"
-                  RowBackground="#F9FBFE" AlternatingRowBackground="#EFF4FF" BorderBrush="#D1D5DB" BorderThickness="1">
+            <!-- Header -->
+            <TextBlock Text="Event Summary Report" Style="{StaticResource TitleText}" />
+            <TextBlock Text="Overview of all events with key metrics"
+                   Style="{StaticResource SubtitleText}"
+                   Margin="0,5,0,20" />
+
+            <!-- DataGrid -->
+            <DataGrid x:Name="eventGrid"
+              AutoGenerateColumns="False"
+              Style="{StaticResource EventsDataGrid}"
+              RowStyle="{StaticResource SelectableRowStyle}"
+              CellStyle="{StaticResource PlainDataGridCellStyle}"
+              CanUserAddRows="False"
+              CanUserResizeRows="False"
+              GridLinesVisibility="None">
+
+
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Event Name" Binding="{Binding EventName}" Width="*"/>
-                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
-                    <DataGridTextColumn Header="Guests" Binding="{Binding Guests}" Width="*"/>
-                    <DataGridTextColumn Header="Budget" Binding="{Binding Budget}" Width="*"/>
-                    <DataGridTextColumn Header="Spent" Binding="{Binding Spent}" Width="*"/>
-                    <DataGridTextColumn Header="Remaining" Binding="{Binding Remaining}" Width="*"/>
+                    <DataGridTextColumn Header="EventName" Binding="{Binding EventName}" Width="3*" />
+                    <DataGridTemplateColumn Header="Status" Width="1.5*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Status}" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Upcoming">
+                                                    <Setter Property="Foreground" Value="#4361EE"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                    <Setter Property="Foreground" Value="#16A34A"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Planning">
+                                                    <Setter Property="Foreground" Value="#CA8A04"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="Foreground" Value="#6B7280"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Guests" Binding="{Binding Guests}" Width="2*" />
+                    <DataGridTextColumn Header="Budget" Binding="{Binding Budget}" Width="2*" />
+                    <DataGridTextColumn Header="Spent" Binding="{Binding Spent}" Width="1.5*" />
+                    <DataGridTextColumn Header="Remaining" Binding="{Binding Remaining}" Width="1.5*" />
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
