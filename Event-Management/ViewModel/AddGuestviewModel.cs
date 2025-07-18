@@ -15,12 +15,14 @@ namespace Event_Management.ViewModel
         private readonly Event _event;
         private readonly int? _guestId;
         private readonly Guest _selectedGuest;
+        private GuestManager guestManager;
 
         public AddGuestViewModel(ObservableCollection<Guest> guests, Event eventParam, int? guestId)
         {
             _guests = guests;
             _event = eventParam;
             _guestId = guestId;
+            this.guestManager = new GuestManager();
 
             SaveCommand = new RelayCommand(SaveGuest);
 
@@ -108,7 +110,7 @@ namespace Event_Management.ViewModel
         public ICommand SaveCommand { get; }
         public Action CloseAction { get; set; }
 
-        private void SaveGuest(object obj)
+        private async void SaveGuest(object obj)
         {
             if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName))
             {
@@ -135,7 +137,8 @@ namespace Event_Management.ViewModel
                 CheckedIn = _guestId.HasValue ? _selectedGuest.CheckedIn : false
             };
 
-            _guests.Add(guest);
+            //_guests.Add(guest);
+            bool check = await guestManager.AddGuest(guest);
             MessageBox.Show("Guest saved successfully. " + Category + " / " + RsvpStatus);
             CloseAction?.Invoke();
         }
