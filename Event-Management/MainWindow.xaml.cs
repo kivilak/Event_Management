@@ -1,6 +1,8 @@
 ﻿using Event_Management.TestingModel;
+//using Event_Management.Model;
 using Event_Management.View;
 using System;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -108,8 +110,5 @@ namespace Event_Management
             guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = guestsControl;
         }
-
-       
-       
     }
 }
