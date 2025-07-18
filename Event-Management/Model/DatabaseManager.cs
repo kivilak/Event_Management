@@ -17,7 +17,7 @@ namespace Event_Management.Model
 
         private DatabaseManager()
         {
-            dbString = "Server=MSI\\SQLEXPRESS;Database=School;Integrated Security=SSPI";
+            dbString = "Server=MSI\\SQLEXPRESS;Database=Event-Management;Integrated Security=SSPI;TrustServerCertificate=True;";
             connection = new SqlConnection(dbString);
         }
 

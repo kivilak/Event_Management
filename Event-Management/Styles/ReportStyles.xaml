@@ -70,6 +70,114 @@
         <Setter Property="BorderBrush" Value="#D8E2F8"/>
         <Setter Property="BorderThickness" Value="1"/>
     </Style>
+    
+    <!-- DataGrid Styling -->
+    <Style x:Key="EventsDataGrid" TargetType="DataGrid">
+        <Setter Property="Margin" Value="0,10,0,0"/>
+        <Setter Property="RowHeight" Value="45"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="BorderBrush" Value="#E5E7EB"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="AlternatingRowBackground" Value="#F9FAFB"/>
+        <Setter Property="RowBackground" Value="White"/>
+        <Setter Property="ColumnHeaderHeight" Value="40"/>
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Background" Value="#F3F4F6"/>
+                    <Setter Property="Foreground" Value="#374151"/>
+                    <Setter Property="BorderBrush" Value="#D1D5DB"/>
+                    <Setter Property="Padding" Value="8,0"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Modern TextBox -->
+    <Style x:Key="ModernTextBox" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="5">
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                  VerticalAlignment="Center"
+                                  Padding="{TemplateBinding Padding}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="BorderBrush" Value="#D1D5DB"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+    <!-- Row Style: custom hover & selected -->
+    <Style x:Key="SelectableRowStyle" TargetType="DataGridRow">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridRow">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <DataGridCellsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <!-- Custom selected color (no blue) -->
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#FEF3C7"/>
+                <!-- Light amber -->
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+            <!-- Hover -->
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#F3F4F6"/>
+                <!-- Light gray -->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- Cell Style: inherits row background, no blue -->
+    <Style x:Key="PlainDataGridCellStyle" TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="8,0"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                    <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="Foreground" Value="Black"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#F3F4F6"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
+    
 
 
 </ResourceDictionary>

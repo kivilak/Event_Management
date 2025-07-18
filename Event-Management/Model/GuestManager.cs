@@ -1,146 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace Event_Management.Model
 {
     class GuestManager
     {
-        public ObservableCollection<Guest> Guests { get; set; }
+        public ObservableCollection<Guest> Guests { get; private set; }
 
         public GuestManager()
         {
-            Guests = new ObservableCollection<Guest>
-            {
-                new Guest
-                {
-                    GuestId = 1,
-                    Name = "Alice Johnson",
-                    Email = "alice@techcorp.com",
-                    Phone = "+1 (555) 123-4567",
-                    Category = "Speaker",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "Vegetarian",
-                    CheckedIn = true,
-                    EventId = 1
-                },
-                new Guest
-                {
-                    GuestId = 2,
-                    Name = "Bob Smith",
-                    Email = "bob@startup.io",
-                    Phone = "+1 (555) 234-5678",
-                    Category = "Attendee",
-                    RsvpStatus = "Pending",
-                    Dietary = "None",
-                    CheckedIn = false,
-                    EventId = 1
-                },
-                new Guest
-                {
-                    GuestId = 3,
-                    Name = "Carol White",
-                    Email = "carol@nonprofit.org",
-                    Phone = "+1 (555) 555-1234",
-                    Category = "Attendee",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "Vegan",
-                    CheckedIn = false,
-                    EventId = 2
-                },
-                new Guest
-                {
-                    GuestId = 4,
-                    Name = "David Wilson",
-                    Email = "david@consulting.biz",
-                    Phone = "+1 (555) 456-7890",
-                    Category = "Attendee",
-                    RsvpStatus = "Declined",
-                    Dietary = "None",
-                    CheckedIn = false,
-                    EventId = 3
-                },
-                new Guest
-                {
-                    GuestId = 5,
-                    Name = "Emily Davis",
-                    Email = "emily@company.com",
-                    Phone = "+1 (555) 789-1234",
-                    Category = "Speaker",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "Gluten-Free",
-                    CheckedIn = true,
-                    EventId = 3
-                },
-                new Guest
-                {
-                    GuestId = 6,
-                    Name = "Frank Thomas",
-                    Email = "frank@media.com",
-                    Phone = "+1 (555) 678-9012",
-                    Category = "Attendee",
-                    RsvpStatus = "Pending",
-                    Dietary = "None",
-                    CheckedIn = false,
-                    EventId = 2
-                },
-                new Guest
-                {
-                    GuestId = 7,
-                    Name = "Grace Lee",
-                    Email = "grace@organizers.org",
-                    Phone = "+1 (555) 321-6540",
-                    Category = "Organizer",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "Vegetarian",
-                    CheckedIn = true,
-                    EventId = 1
-                },
-                new Guest
-                {
-                    GuestId = 8,
-                    Name = "Henry Brown",
-                    Email = "henry@enterprise.com",
-                    Phone = "+1 (555) 876-5432",
-                    Category = "Attendee",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "Vegan",
-                    CheckedIn = false,
-                    EventId = 2
-                },
-                new Guest
-                {
-                    GuestId = 9,
-                    Name = "Isabel Young",
-                    Email = "isabel@startup.io",
-                    Phone = "+1 (555) 112-2334",
-                    Category = "Attendee",
-                    RsvpStatus = "Pending",
-                    Dietary = "None",
-                    CheckedIn = false,
-                    EventId = 3
-                },
-                new Guest
-                {
-                    GuestId = 10,
-                    Name = "Jack Miller",
-                    Email = "jack@consultants.com",
-                    Phone = "+1 (555) 223-3445",
-                    Category = "Speaker",
-                    RsvpStatus = "Confirmed",
-                    Dietary = "None",
-                    CheckedIn = true,
-                    EventId = 1
-                }
-            };
+
         }
 
-        public ObservableCollection<Guest> getAllGyest()
+        public async Task<ObservableCollection<Guest>> GetAllGuests()       // return all the guests
         {
-            return Guests;
+            var guests = new ObservableCollection<Guest>();
+            var db = DatabaseManager.Instance;
+            var query = "SELECT * FROM Guest";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        var guest = new Guest
+                        {
+                            GuestId = Convert.ToInt32(reader["GuestId"]),
+                            Name = reader["Name"]?.ToString(),
+                            Email = reader["Email"]?.ToString(),
+                            Phone = reader["Phone"]?.ToString(),
+                            Category = reader["Category"]?.ToString(),
+                            RsvpStatus = reader["RsvpStatus"]?.ToString(),
+                            Dietary = reader["Dietary"]?.ToString(),
+                            CheckedIn = Convert.ToBoolean(reader["CheckedIn"]),
+                            EventId = Convert.ToInt32(reader["EventId"])
+                        };
+
+                        guests.Add(guest);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving guests: {ex.Message}");
+            }
+
+            return guests;
+        }
+
+        public async Task<bool> AddGuest(Guest guest)
+        {
+            var db = DatabaseManager.Instance;
+            var query = "INSERT INTO Guest(Name, Email, Phone, Category, RsvpStatus, Dietary, CheckedIn, EventId)" +
+                "VALUES(@Name, @Email, @Phone, @Category, @RsvpStatus, @Dietary, @CheckedIn, @EventId)";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@Name", guest.Name ?? "");
+                    command.Parameters.AddWithValue("@Email", guest.Email ?? "");
+                    command.Parameters.AddWithValue("@Phone", guest.Phone ?? "");
+                    command.Parameters.AddWithValue("@Category", guest.Category ?? "");
+                    command.Parameters.AddWithValue("@RsvpStatus", guest.RsvpStatus ?? "");
+                    command.Parameters.AddWithValue("@Dietary", guest.Dietary ?? "");
+                    command.Parameters.AddWithValue("@CheckedIn", guest.CheckedIn);
+                    command.Parameters.AddWithValue("@EventId", guest.EventId);
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while adding guest: {ex.Message}");
+                return false;
+            }
+
+        }
+
+        public async Task<bool> DeleteGuest(int guestId)
+        {
+            var db = DatabaseManager.Instance;
+            var query = "DELETE FROM Guest WHERE GuestId = @GuestId";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@GuestId", guestId);
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while deleting guest: {ex.Message}");
+                return false;
+            }
         }
     }
 }
