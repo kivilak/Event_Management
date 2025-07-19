@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+/Event-Management/Model/Secret.cs
+/Event-Management/TestingModel/Secret.cs
