@@ -15,12 +15,14 @@ namespace Event_Management.ViewModel
         private readonly Event _event;
         private readonly int? _guestId;
         private readonly Guest _selectedGuest;
+        private GuestManager guestManager;
 
         public AddGuestViewModel(ObservableCollection<Guest> guests, Event eventParam, int? guestId)
         {
             _guests = guests;
             _event = eventParam;
             _guestId = guestId;
+            this.guestManager = new GuestManager();
 
             SaveCommand = new RelayCommand(SaveGuest);
 
@@ -33,6 +35,11 @@ namespace Event_Management.ViewModel
             RsvpStatusOptions = new ObservableCollection<string>
             {
                 "Pending", "Accepted", "Declined"
+            };
+
+            DietaryOption = new ObservableCollection<string>
+            {
+                "Vegetarian", "Non-Vegetarian"
             };
 
             if (_guestId.HasValue)
@@ -48,6 +55,7 @@ namespace Event_Management.ViewModel
                     Category = _selectedGuest.Category;
                     RsvpStatus = _selectedGuest.RsvpStatus;
                     //JobTitle = _selectedGuest.JobTitle;
+                    Dietary = _selectedGuest.Dietary;
                 }
             }
         }
@@ -55,7 +63,9 @@ namespace Event_Management.ViewModel
         public ObservableCollection<string> CategoryOptions { get; }
         public ObservableCollection<string> RsvpStatusOptions { get; }
 
-        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _jobTitle;
+        public ObservableCollection<string> DietaryOption { get; }
+
+        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _Dietary;
 
         public string FirstName
         {
@@ -93,10 +103,10 @@ namespace Event_Management.ViewModel
             set { _rsvpStatus = value; OnPropertyChanged(nameof(RsvpStatus)); }
         }
 
-        public string JobTitle
+        public string Dietary
         {
-            get => _jobTitle;
-            set { _jobTitle = value; OnPropertyChanged(nameof(JobTitle)); }
+            get => _Dietary;
+            set { _Dietary = value; OnPropertyChanged(nameof(_Dietary)); }
         }
         public string EventName => _event?.Name ?? "Unknown Event";
         public string EventDate => _event?.DateTime != null ? DateTime.Parse(_event.DateTime).ToString("M/d/yyyy") : "N/A";
@@ -108,7 +118,7 @@ namespace Event_Management.ViewModel
         public ICommand SaveCommand { get; }
         public Action CloseAction { get; set; }
 
-        private void SaveGuest(object obj)
+        private async void SaveGuest(object obj)
         {
             if (string.IsNullOrWhiteSpace(FirstName) || string.IsNullOrWhiteSpace(LastName))
             {
@@ -135,7 +145,8 @@ namespace Event_Management.ViewModel
                 CheckedIn = _guestId.HasValue ? _selectedGuest.CheckedIn : false
             };
 
-            _guests.Add(guest);
+            //_guests.Add(guest);
+            bool check = await guestManager.AddGuest(guest);
             MessageBox.Show("Guest saved successfully. " + Category + " / " + RsvpStatus);
             CloseAction?.Invoke();
         }

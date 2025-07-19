@@ -75,9 +75,9 @@ namespace Event_Management.View
         }
 
 
-        private void LoadGuests()
+        private async void LoadGuests()
         {
-            var allGuests = guestManager.GetSampleGuests()
+            var allGuests = (await guestManager.GetAllGuests())
                 .Where(g => g.EventId == selectedEvent.Id);
 
             if (SelectedRsvpStatus != "All Status")
