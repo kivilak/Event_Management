@@ -135,11 +135,12 @@
 
                             <!-- Job Title -->
                             <StackPanel Grid.Row="4" Grid.Column="2">
-                                <TextBlock Text="Job Title" FontWeight="SemiBold" Margin="0,0,0,8"/>
-                                <TextBox x:Name="JobTitleTextBox" Height="45" Padding="15,12" 
-                                 FontSize="14" BorderBrush="#E0E0E0" BorderThickness="1"
-                                 Foreground="Gray"
-                                 Text="{Binding JobTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="RSVP Status" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <ComboBox x:Name="DietaryComboBox"
+                                      ItemsSource="{Binding DietaryOption}" 
+                                      SelectedItem="{Binding Dietary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Height="45" Padding="15,0" FontSize="14"
+                                      BorderBrush="#E0E0E0" BorderThickness="1" Foreground="Gray"/>
                             </StackPanel>
 
                             <!-- RSVP Status -->

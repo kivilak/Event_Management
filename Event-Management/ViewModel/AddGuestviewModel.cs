@@ -37,6 +37,11 @@ namespace Event_Management.ViewModel
                 "Pending", "Accepted", "Declined"
             };
 
+            DietaryOption = new ObservableCollection<string>
+            {
+                "Vegetarian", "Non-Vegetarian"
+            };
+
             if (_guestId.HasValue)
             {
                 _selectedGuest = _guests.FirstOrDefault(g => g.GuestId == _guestId.Value);
@@ -50,6 +55,7 @@ namespace Event_Management.ViewModel
                     Category = _selectedGuest.Category;
                     RsvpStatus = _selectedGuest.RsvpStatus;
                     //JobTitle = _selectedGuest.JobTitle;
+                    Dietary = _selectedGuest.Dietary;
                 }
             }
         }
@@ -57,7 +63,9 @@ namespace Event_Management.ViewModel
         public ObservableCollection<string> CategoryOptions { get; }
         public ObservableCollection<string> RsvpStatusOptions { get; }
 
-        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _jobTitle;
+        public ObservableCollection<string> DietaryOption { get; }
+
+        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _Dietary;
 
         public string FirstName
         {
@@ -95,10 +103,10 @@ namespace Event_Management.ViewModel
             set { _rsvpStatus = value; OnPropertyChanged(nameof(RsvpStatus)); }
         }
 
-        public string JobTitle
+        public string Dietary
         {
-            get => _jobTitle;
-            set { _jobTitle = value; OnPropertyChanged(nameof(JobTitle)); }
+            get => _Dietary;
+            set { _Dietary = value; OnPropertyChanged(nameof(_Dietary)); }
         }
         public string EventName => _event?.Name ?? "Unknown Event";
         public string EventDate => _event?.DateTime != null ? DateTime.Parse(_event.DateTime).ToString("M/d/yyyy") : "N/A";

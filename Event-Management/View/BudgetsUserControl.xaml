@@ -157,16 +157,49 @@
                         </ComboBox>
 
                     </StackPanel>
-                    <DataGrid x:Name="BudgetItemsGrid" AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" GridLinesVisibility="None" RowBackground="#F9FBFE" AlternatingRowBackground="#EFF4FF" BorderBrush="#D1D5DB" BorderThickness="1">
+                    <DataGrid x:Name="BudgetItemsGrid" 
+                             AutoGenerateColumns="False"
+                             Style="{StaticResource EventsDataGrid}"
+                             RowStyle="{StaticResource SelectableRowStyle}"
+                             CellStyle="{StaticResource PlainDataGridCellStyle}"
+                             CanUserAddRows="False"
+                             CanUserResizeRows="False"
+                             GridLinesVisibility="None">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="*"/>
-                            <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="*"/>
-                            <DataGridTextColumn Header="Estimated" Binding="{Binding Estimated}" Width="*"/>
-                            <DataGridTextColumn Header="Actual" Binding="{Binding Actual}" Width="*"/>
-                            <DataGridTextColumn Header="Difference" Binding="{Binding Difference}" Width="*"/>
-                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="2*" />
+                            <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="2*" />
+                            <DataGridTextColumn Header="Estimated" Binding="{Binding Estimated}" Width="2*" />
+                            <DataGridTextColumn Header="Actual" Binding="{Binding Actual}" Width="1.5*" />
+                            <DataGridTextColumn Header="Difference" Binding="{Binding Difference}" Width="2*" />
+
+                            <DataGridTemplateColumn Header="Status" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Status}" FontWeight="SemiBold">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="Black"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Over Budget">
+                                                            <Setter Property="Foreground" Value="Red"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Under Budget">
+                                                            <Setter Property="Foreground" Value="Green"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                            <Setter Property="Foreground" Value="black"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                         </DataGrid.Columns>
                     </DataGrid>
+                   
                 </StackPanel>
             </Border>
 
