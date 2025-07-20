@@ -17,6 +17,7 @@ namespace Event_Management.TestingModel
                       Type = "Conference",
                       Status = "Upcoming",
                       Guests = 120,
+                      Tasks = 10, 
                       Capacity = 500
                   },
                   new Event
@@ -28,6 +29,7 @@ namespace Event_Management.TestingModel
                       Type = "Corporate",
                       Status = "Upcoming",
                       Guests = 75,
+                      Tasks = 10,
                       Capacity = 200
                   },
                   new Event
@@ -39,6 +41,7 @@ namespace Event_Management.TestingModel
                       Type = "Corporate",
                       Status = "Planning",
                       Guests = 60,
+                      Tasks = 10,
                       Capacity = 100
                   },
                   new Event
@@ -50,6 +53,7 @@ namespace Event_Management.TestingModel
                       Type = "Fundraiser",
                       Status = "Ongoing",
                       Guests = 320,
+                      Tasks = 10,
                       Capacity = 1000
                   },
                   new Event
@@ -61,6 +65,7 @@ namespace Event_Management.TestingModel
                       Type = "Fundraiser",
                       Status = "Completed",
                       Guests = 180,
+                      Tasks = 10,
                       Capacity = 250
                   }
               };

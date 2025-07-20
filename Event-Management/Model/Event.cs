@@ -28,5 +28,6 @@ namespace Event_Management.Model
  
         public ICollection<Task>? Tasks { get; set; }
         public ICollection<Guest>? Guests { get; set; }
+        public string Name { get; internal set; }
     }
 }
