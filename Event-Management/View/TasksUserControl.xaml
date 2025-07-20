@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="Event_Management.View.TasksUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Event_Management.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/TasksManagementStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid Background="#F9FAFB">
+        <StackPanel Margin="20">
+            <!-- Header -->
+            <TextBlock Text="Task Management" Style="{StaticResource TitleText}" />
+            <TextBlock Text="Select an event to view and manage its task list"
+                   Style="{StaticResource SubtitleText}"
+                   Margin="0,5,0,20" />
+
+            <!-- Filters -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,15" VerticalAlignment="Center" >
+
+                <TextBox Style="{StaticResource ModernTextBox}"
+                 Width="250" Height="35"
+                 Margin="0,0,20,0"
+                 VerticalAlignment="Center"
+                 Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ComboBox Style="{StaticResource ModernComboBox}"
+                  Width="150" Height="35"
+                  Margin="0,0,10,0"
+                  VerticalAlignment="Center"
+                  SelectedItem="{Binding SelectedType, Mode=TwoWay}" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>All Types</sys:String>
+                            <sys:String>Conference</sys:String>
+                            <sys:String>Corporate</sys:String>
+                            <sys:String>Wedding</sys:String>
+                            <sys:String>Fundraiser</sys:String>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+
+                <ComboBox Style="{StaticResource ModernComboBox}"
+              Width="150" Height="35"
+              VerticalAlignment="Center"
+              Background="white"
+              SelectedItem="{Binding SelectedStatus, Mode=TwoWay}">
+                    <ComboBox.ItemsSource>
+                        <x:Array Type="{x:Type sys:String}" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+                            <sys:String>All Status</sys:String>
+                            <sys:String>Upcoming</sys:String>
+                            <sys:String>Ongoing</sys:String>
+                            <sys:String>Planning</sys:String>
+                            <sys:String>Completed</sys:String>
+                        </x:Array>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
+
+            </StackPanel>
+
+            <!-- DataGrid -->
+            <DataGrid ItemsSource="{Binding FilteredEvents}"
+                  AutoGenerateColumns="False"
+                  Style="{StaticResource EventsDataGrid}"
+                  RowStyle="{StaticResource SelectableRowStyle}"
+                  CellStyle="{StaticResource PlainDataGridCellStyle}"
+                  CanUserAddRows="False"
+                  CanUserResizeRows="False"
+                  GridLinesVisibility="None"
+                  SelectionChanged="DataGrid_SelectionChanged">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" Width="3*" />
+                    <DataGridTextColumn Header="Date_Time" Binding="{Binding DateTime}" Width="2*" />
+                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="2*" />
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="1.5*" />
+
+                    <DataGridTemplateColumn Header="Status" Width="1.5*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Status}" FontWeight="SemiBold">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}" Value="Upcoming">
+                                                    <Setter Property="Foreground" Value="#4361EE"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                                                    <Setter Property="Foreground" Value="#16A34A"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Planning">
+                                                    <Setter Property="Foreground" Value="#CA8A04"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                                                    <Setter Property="Foreground" Value="#6B7280"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Header="Tasks" Binding="{Binding Tasks}" Width="1.5*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+    </Grid>
+</UserControl>

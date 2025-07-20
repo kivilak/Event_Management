@@ -15,6 +15,7 @@ namespace Event_Management.TestingModel
         public string? Type { get; set; }
         public string? Status { get; set; }
         public int Guests { get; set; }
+        public int Tasks { get; set; }
         public int Capacity { get; set; }
         public string GuestSummary => $"{Guests} / {Capacity}";
     }

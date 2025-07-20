@@ -46,6 +46,9 @@ namespace Event_Management
                 case "GuestsNavigation":
                     LoadGuestsView();
                     break;
+                case "TasksNavigation":
+                    LoadTasksView();
+                    break;
 
                 case "BudgetsNavigation":
                     LoadBudgetView();
@@ -63,6 +66,14 @@ namespace Event_Management
             var guestsControl = new GuestsUserControl();
             guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = guestsControl;
+        }
+
+        // Loads TaskssUserControl and subscribes to event selection
+        private void LoadTasksView()
+        {
+            var tasksControl = new TasksUserControl();
+            tasksControl.EventSelected += NavigateToEventDetails;
+            _mainContentArea.Content = tasksControl;
         }
 
         // Loads EventUserControl
