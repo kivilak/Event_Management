@@ -7,6 +7,123 @@
              d:DesignHeight="700" d:DesignWidth="1100"
              Background="#F8FAFC">
 
+    <UserControl.Resources>
+
+        <!-- Header & Data Styles -->
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="12,8"/>
+        </Style>
+
+        <Style x:Key="DataTextStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Margin" Value="12,0"/>
+        </Style>
+
+        <Style x:Key="NameTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataTextStyle}">
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#1F2937"/>
+        </Style>
+
+        <Style x:Key="StatusTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataTextStyle}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Status}" Value="Upcoming">
+                    <Setter Property="Foreground" Value="#4361EE"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="Ongoing">
+                    <Setter Property="Foreground" Value="#16A34A"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="Planning">
+                    <Setter Property="Foreground" Value="#CA8A04"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Status}" Value="Completed">
+                    <Setter Property="Foreground" Value="#6B7280"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BudgetTextStyle" TargetType="TextBlock" BasedOn="{StaticResource DataTextStyle}">
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="#10B981"/>
+        </Style>
+
+        <Style x:Key="ActionButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="60"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Background" Value="#F3F4F6"/>
+            <Setter Property="BorderBrush" Value="#D1D5DB"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="#374151"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E5E7EB"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Grid Column Widths -->
+        <GridLength x:Key="NameColumnWidth">2*</GridLength>
+        <GridLength x:Key="StandardColumnWidth">*</GridLength>
+        <GridLength x:Key="ActionColumnWidth">Auto</GridLength>
+
+        <!-- Event Template -->
+        <DataTemplate x:Key="EventItemTemplate">
+            <Border CornerRadius="6"
+                    BorderBrush="#E5E7EB"
+                    BorderThickness="1"
+                    Margin="0,0,0,10"
+                    Background="White">
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{StaticResource NameColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                        <ColumnDefinition Width="{StaticResource ActionColumnWidth}"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Event Fields -->
+                    <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource NameTextStyle}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Type}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="2" Text="{Binding DateTime}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="3" Text="{Binding Location}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="4" Text="{Binding Status}" Style="{StaticResource StatusTextStyle}"/>
+                    <TextBlock Grid.Column="5" Text="{Binding GuestSummary}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="6" Text="{Binding Budget, StringFormat={}{0:C}}" Style="{StaticResource BudgetTextStyle}"/>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Grid.Column="7" Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="12,0">
+                        <Button Content="Guests"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Command="{Binding DataContext.ViewGuestsCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}"/>
+                        <Button Content="Tasks"
+                                Style="{StaticResource ActionButtonStyle}"
+                                Command="{Binding DataContext.ViewTasksCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+    </UserControl.Resources>
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="30">
 
@@ -19,7 +136,8 @@
                 </StackPanel>
 
                 <Button DockPanel.Dock="Right" Width="140" Height="40" Background="#2563EB" Foreground="White"
-                        FontWeight="SemiBold" BorderThickness="0" Margin="10,0,0,0" Cursor="Hand">
+                        FontWeight="SemiBold" BorderThickness="0" Margin="10,0,0,0" Cursor="Hand"
+                        Click="AddEventBtn_Click">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <TextBlock Text="+" FontSize="16" Margin="0,0,8,0"/>
                         <TextBlock Text="Create Event" FontSize="14"/>
@@ -59,7 +177,7 @@
 
             </UniformGrid>
 
-            <!-- Recent Events Section -->
+            <!-- Recent Events -->
             <Border CornerRadius="10" Background="White" Padding="20" BorderBrush="#E2E8F0" BorderThickness="1">
                 <StackPanel>
                     <TextBlock Text="Recent Events" FontSize="20" FontWeight="Bold" Foreground="#1E293B"/>
@@ -68,52 +186,43 @@
 
                     <!-- Search + Filter -->
                     <DockPanel Margin="0,0,0,15">
-                        <TextBox Width="250" Height="35" 
-                                 VerticalContentAlignment="Center" 
-                                 Padding="10,0,0,0"
-                                 Background="#F1F5F9" BorderBrush="#CBD5E1" BorderThickness="1"
-                                 Tag="Search events..." />
-                        <ComboBox Width="150" Height="35" Margin="10,0,0,0" SelectedIndex="0"
-                                  VerticalContentAlignment="Center">
-                            <ComboBoxItem Content="All Status" IsSelected="True"/>
-                            <ComboBoxItem Content="Upcoming"/>
-                            <ComboBoxItem Content="Completed"/>
-                            <ComboBoxItem Content="Cancelled"/>
-                        </ComboBox>
+                        <!-- Search -->
+                        <StackPanel Margin="10,0" Width="250">
+                            <TextBlock Text="Search Events:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBox Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" Padding="4" />
+                        </StackPanel>
+                        <StackPanel Margin="10,0" Width="200">
+                            <TextBlock Text="Filter by Status:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <ComboBox ItemsSource="{Binding StatusList}"
+                                      SelectedItem="{Binding SelectedStatus, UpdateSourceTrigger=PropertyChanged}"
+                                      Padding="4" />
+                        </StackPanel>
                     </DockPanel>
 
-                    <!-- Event Table -->
-                    <DataGrid AutoGenerateColumns="False"
-          HeadersVisibility="Column"
-          CanUserAddRows="False"
-          Background="White"
-          BorderBrush="#E2E8F0"
-          BorderThickness="1"
-          RowHeight="40"
-          ColumnHeaderHeight="40"
-          AlternatingRowBackground="#F9FAFB"
-          GridLinesVisibility="None">
+                    <!-- Column Headers -->
+                    <Grid Background="#F3F4F6" Margin="0,0,0,5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{StaticResource NameColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource StandardColumnWidth}"/>
+                            <ColumnDefinition Width="{StaticResource ActionColumnWidth}"/>
+                        </Grid.ColumnDefinitions>
 
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" Width="3*"/>
-                            <DataGridTextColumn Header="Date &amp; Time" Binding="{Binding DateTime}" Width="2*"/>
-                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" Width="3*"/>
-                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="2*"/>
-                            <DataGridTextColumn Header="Attendees" Binding="{Binding Attendees}" Width="2*"/>
-                            <DataGridTemplateColumn Header="Actions" Width="2*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Button Content="View Details"
-                            Width="100" Height="28"
-                            Background="#F1F5F9"
-                            BorderBrush="#E2E8F0"
-                            Cursor="Hand"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
+                        <TextBlock Grid.Column="0" Text="Name" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="1" Text="Type" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="2" Text="Date &amp; Time" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="3" Text="Location" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="4" Text="Status" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="5" Text="Guests" Style="{StaticResource HeaderTextStyle}"/>
+                        <TextBlock Grid.Column="7" Text="Actions" Style="{StaticResource HeaderTextStyle}"/>
+                    </Grid>
 
+                    <!-- Events List -->
+                    <ItemsControl ItemsSource="{Binding Events}" ItemTemplate="{StaticResource EventItemTemplate}"/>
                 </StackPanel>
             </Border>
 
