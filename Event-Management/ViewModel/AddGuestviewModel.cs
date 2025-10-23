@@ -14,7 +14,7 @@ namespace Event_Management.ViewModel
         private readonly ObservableCollection<Guest> _guests;
         private readonly Event _event;
         private readonly int? _guestId;
-        private readonly Guest _selectedGuest;
+        private Guest _selectedGuest;
         private GuestManager guestManager;
 
         public AddGuestViewModel(ObservableCollection<Guest> guests, Event eventParam, int? guestId)
@@ -22,7 +22,7 @@ namespace Event_Management.ViewModel
             _guests = guests;
             _event = eventParam;
             _guestId = guestId;
-            this.guestManager = new GuestManager();
+            guestManager = new GuestManager();
 
             SaveCommand = new RelayCommand(SaveGuest);
 
@@ -42,6 +42,7 @@ namespace Event_Management.ViewModel
                 "Vegetarian", "Non-Vegetarian"
             };
 
+            // If editing existing guest
             if (_guestId.HasValue)
             {
                 _selectedGuest = _guests.FirstOrDefault(g => g.GuestId == _guestId.Value);
@@ -54,66 +55,39 @@ namespace Event_Management.ViewModel
                     Phone = _selectedGuest.Phone;
                     Category = _selectedGuest.Category;
                     RsvpStatus = _selectedGuest.RsvpStatus;
-                    //JobTitle = _selectedGuest.JobTitle;
                     Dietary = _selectedGuest.Dietary;
                 }
             }
+            else
+            {
+                // **Set default dropdown values for new guest**
+                Category = CategoryOptions.FirstOrDefault();
+                RsvpStatus = RsvpStatusOptions.FirstOrDefault();
+                Dietary = DietaryOption.FirstOrDefault();
+            }
         }
 
+        // Dropdown collections
         public ObservableCollection<string> CategoryOptions { get; }
         public ObservableCollection<string> RsvpStatusOptions { get; }
-
         public ObservableCollection<string> DietaryOption { get; }
 
-        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _Dietary;
+        // Guest fields
+        private string _firstName, _lastName, _email, _phone, _category, _rsvpStatus, _dietary;
 
-        public string FirstName
-        {
-            get => _firstName;
-            set { _firstName = value; OnPropertyChanged(nameof(FirstName)); }
-        }
+        public string FirstName { get => _firstName; set { _firstName = value; OnPropertyChanged(nameof(FirstName)); } }
+        public string LastName { get => _lastName; set { _lastName = value; OnPropertyChanged(nameof(LastName)); } }
+        public string Email { get => _email; set { _email = value; OnPropertyChanged(nameof(Email)); } }
+        public string Phone { get => _phone; set { _phone = value; OnPropertyChanged(nameof(Phone)); } }
+        public string Category { get => _category; set { _category = value; OnPropertyChanged(nameof(Category)); } }
+        public string RsvpStatus { get => _rsvpStatus; set { _rsvpStatus = value; OnPropertyChanged(nameof(RsvpStatus)); } }
+        public string Dietary { get => _dietary; set { _dietary = value; OnPropertyChanged(nameof(Dietary)); } }
 
-        public string LastName
-        {
-            get => _lastName;
-            set { _lastName = value; OnPropertyChanged(nameof(LastName)); }
-        }
-
-        public string Email
-        {
-            get => _email;
-            set { _email = value; OnPropertyChanged(nameof(Email)); }
-        }
-
-        public string Phone
-        {
-            get => _phone;
-            set { _phone = value; OnPropertyChanged(nameof(Phone)); }
-        }
-
-        public string Category
-        {
-            get => _category;
-            set { _category = value; OnPropertyChanged(nameof(Category)); }
-        }
-
-        public string RsvpStatus
-        {
-            get => _rsvpStatus;
-            set { _rsvpStatus = value; OnPropertyChanged(nameof(RsvpStatus)); }
-        }
-
-        public string Dietary
-        {
-            get => _Dietary;
-            set { _Dietary = value; OnPropertyChanged(nameof(_Dietary)); }
-        }
+        // Event info
         public string EventName => _event?.Name ?? "Unknown Event";
         public string EventDate => _event?.DateTime != null ? DateTime.Parse(_event.DateTime).ToString("M/d/yyyy") : "N/A";
         public string EventLocation => _event?.Location ?? "Unknown Location";
-
-        public string EventType => _event?.Type ?? "Unknown Catagory";
-
+        public string EventType => _event?.Type ?? "Unknown Category";
 
         public ICommand SaveCommand { get; }
         public Action CloseAction { get; set; }
@@ -128,7 +102,7 @@ namespace Event_Management.ViewModel
 
             int guestId = _guestId ?? (_guests.Any() ? _guests.Max(g => g.GuestId) + 1 : 1);
 
-            if (_guestId.HasValue)
+            if (_guestId.HasValue && _selectedGuest != null)
                 _guests.Remove(_selectedGuest);
 
             Guest guest = new Guest
@@ -139,13 +113,11 @@ namespace Event_Management.ViewModel
                 Phone = Phone,
                 Category = Category,
                 RsvpStatus = RsvpStatus,
-                //JobTitle = JobTitle,
+                Dietary = Dietary,
                 EventId = _event.Id,
-                Dietary = "Vegetarian",
-                CheckedIn = _guestId.HasValue ? _selectedGuest.CheckedIn : false
+                CheckedIn = _guestId.HasValue ? _selectedGuest?.CheckedIn ?? false : false
             };
 
-            //_guests.Add(guest);
             bool check = await guestManager.AddGuest(guest);
             MessageBox.Show("Guest saved successfully. " + Category + " / " + RsvpStatus);
             CloseAction?.Invoke();

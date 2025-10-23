@@ -134,8 +134,12 @@
                             </StackPanel>
 
                             <!-- Job Title -->
+                            <!-- Dietary / Job Title -->
                             <StackPanel Grid.Row="4" Grid.Column="2">
-                                <TextBlock Text="RSVP Status" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                <TextBlock FontWeight="SemiBold" Margin="0,0,0,8">
+                                <Run Text="Dietary Option"/>
+                                <Run Text="*" Foreground="Red"/>
+                                </TextBlock>
                                 <ComboBox x:Name="DietaryComboBox"
                                       ItemsSource="{Binding DietaryOption}" 
                                       SelectedItem="{Binding Dietary, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
