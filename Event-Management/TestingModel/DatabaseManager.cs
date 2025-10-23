@@ -28,8 +28,8 @@ namespace Event_Management.TestingModel
         {
             if(connection.State != ConnectionState.Open)
                 connection.Open();
-
-            return connection;
+           
+                return connection;
         }
 
         public void CloseConnection()
