@@ -1,6 +1,7 @@
 ﻿using Event_Management.TestingModel;
 //using Event_Management.Model;
 using Event_Management.View;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Data;
 using System.Windows;
@@ -23,6 +24,7 @@ namespace Event_Management
 
             // Load initial content (optional)
             // LoadGuestsView();
+            LoadDashboardView();
         }
 
         // Handles sidebar button clicks
@@ -37,6 +39,7 @@ namespace Event_Management
                 case "DashboardNavigation":
                     Console.WriteLine("Dashboard view clicked.");
                     // Add your dashboard loading logic here
+                    LoadDashboardView();
                     break;
 
                 case "EventsNavigation":
@@ -57,7 +60,18 @@ namespace Event_Management
                 case "ReportsNavigation":
                     LoadReportView();
                     break;
+                default:
+                    LoadDashboardView();
+                    break;
             }
+        }
+
+        // Loads Dashboard and subscribes to event selection
+        private void LoadDashboardView()
+        {
+            var dashboardControl = new Dashboard();
+            dashboardControl.EventSelected += NavigateToEventDetails;
+            _mainContentArea.Content = dashboardControl;
         }
 
         // Loads GuestsUserControl and subscribes to event selection
