@@ -48,7 +48,7 @@
 
                 <Button Grid.Column="1" Width="160" Style="{StaticResource AddButton}" Margin="10,0,0,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="../Assets/plus.png" Width="16" Height="16" Margin="0,0,5,0"/>
+                       <!-- <Image Source="../Assets/plus.png" Width="16" Height="16" Margin="0,0,5,0"/> -->
                         <TextBlock Text="Add Budget Item"/>
                     </StackPanel>
                 </Button>
@@ -69,9 +69,9 @@
                         <TextBlock Text="Total Budget" Style="{StaticResource CardTitle}" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="$45,000" Style="{StaticResource CardValue}" />
-                            <Image Source="../Assets/trending-up.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                            <!--<Image Source="../Assets/trending-up.png" Width="20" Height="20" Margin="5,0,0,0"/> -->
                         </StackPanel>
-                        <TextBlock Text="Estimated total" Style="{StaticResource CardSubText}" />
+                        <TextBlock Text="{Binding Summary.TotalBudget, StringFormat='${0:N0}'}" Style="{StaticResource CardSubText}" />
                     </StackPanel>
                 </Border>
 
@@ -81,9 +81,9 @@
                         <TextBlock Text="Spent" Style="{StaticResource CardTitle}" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="$42,500" Style="{StaticResource CardValue}" />
-                            <Image Source="../Assets/trending-down.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                            <!--<Image Source="../Assets/trending-down.png" Width="20" Height="20" Margin="5,0,0,0"/> -->
                         </StackPanel>
-                        <TextBlock Text="Actual spending" Style="{StaticResource CardSubText}" />
+                        <TextBlock Text="{Binding Summary.Spent, StringFormat='${0:N0}'}" Style="{StaticResource CardSubText}" />
                     </StackPanel>
                 </Border>
 
@@ -93,9 +93,9 @@
                         <TextBlock Text="Remaining" Style="{StaticResource CardTitle}" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="$2,500" Foreground="Green" Style="{StaticResource CardValue}" />
-                            <Image Source="../Assets/check.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                           <!-- <Image Source="../Assets/check.png" Width="20" Height="20" Margin="5,0,0,0"/> -->
                         </StackPanel>
-                        <TextBlock Text="Available budget" Style="{StaticResource CardSubText}" />
+                        <TextBlock Text="{Binding Summary.Remaining, StringFormat='${0:N0}'}" Style="{StaticResource CardSubText}" />
                     </StackPanel>
                 </Border>
 
@@ -105,9 +105,9 @@
                         <TextBlock Text="Over Budget" Style="{StaticResource CardTitle}" />
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="2" Foreground="Red" Style="{StaticResource CardValue}" />
-                            <Image Source="../Assets/warning.png" Width="20" Height="20" Margin="5,0,0,0"/>
+                           <!-- <Image Source="../Assets/warning.png" Width="20" Height="20" Margin="5,0,0,0"/> -->
                         </StackPanel>
-                        <TextBlock Text="Items over budget" Style="{StaticResource CardSubText}" />
+                        <TextBlock Text="{Binding Summary.Remaining, StringFormat='${0:N0}'}" Style="{StaticResource CardSubText}" />
                     </StackPanel>
                 </Border>
             </Grid>
@@ -125,15 +125,39 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="$42,500 of $45,000 used"
-                       FontWeight="Bold" FontSize="16" />
-                        <TextBlock Grid.Column="1" Text="94.4%" FontSize="16" FontWeight="Bold" HorizontalAlignment="Right" />
+
+                        <!-- Left side: "42,500 of 45,000 used" -->
+                        <TextBlock Grid.Column="0"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#1F2937"
+                           VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0:C0} of {1:C0} used">
+                                                <!-- Use TargetNullValue to avoid errors if null -->
+                                                <Binding Path="Summary.Spent" TargetNullValue="0" />
+                                                <Binding Path="Summary.TotalBudget" TargetNullValue="0" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                        </TextBlock>
+
+                        <!-- Right side: "94.44%" -->
+                        <TextBlock Grid.Column="1"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           Foreground="#2563EB"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Text="{Binding Summary.PercentageOfSpent, 
+                                          TargetNullValue=0, 
+                                          StringFormat={}{0:F2}%}" />   
                     </Grid>
+
 
                     <!-- Warning Box -->
                     <Border Background="#FFF5F5" BorderBrush="#FCA5A5" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,5,0,0">
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="../Assets/warning.png" Width="20" Height="20" Margin="0,0,10,0"/>
+                            <!--<Image Source="../Assets/warning.png" Width="20" Height="20" Margin="0,0,10,0"/> -->
                             <TextBlock Text="Warning: Budget utilization is high. Consider reviewing expenses."
                            Foreground="#B91C1C" FontSize="14" TextWrapping="Wrap"/>
                         </StackPanel>
@@ -158,13 +182,14 @@
 
                     </StackPanel>
                     <DataGrid x:Name="BudgetItemsGrid" 
-                             AutoGenerateColumns="False"
-                             Style="{StaticResource EventsDataGrid}"
-                             RowStyle="{StaticResource SelectableRowStyle}"
-                             CellStyle="{StaticResource PlainDataGridCellStyle}"
-                             CanUserAddRows="False"
-                             CanUserResizeRows="False"
-                             GridLinesVisibility="None">
+                              ItemsSource="{Binding BudgetItems}"
+                              AutoGenerateColumns="False"
+                              Style="{StaticResource EventsDataGrid}"
+                              RowStyle="{StaticResource SelectableRowStyle}"
+                              CellStyle="{StaticResource PlainDataGridCellStyle}"
+                              CanUserAddRows="False"
+                              CanUserResizeRows="False"
+                              GridLinesVisibility="None">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="2*" />
                             <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="2*" />
@@ -213,11 +238,11 @@
                 <Border Grid.Column="0" Style="{StaticResource ChartCard}"  Margin="20,20,0,0">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Image Source="../Assets/pie-chart.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                            <!--<Image Source="../Assets/pie-chart.png" Width="20" Height="20" Margin="0,0,5,0"/> -->
                             <TextBlock Text="Budget Distribution" Style="{StaticResource ChartCardTitle}" />
                         </StackPanel>
 
-                        <Image Source="../Assets/pie-placeholder.png" Width="80" Height="80" Margin="20" Opacity="0.5"/>
+                       <!-- <Image Source="../Assets/pie-placeholder.png" Width="80" Height="80" Margin="20" Opacity="0.5"/> -->
                         <TextBlock Text="Pie chart visualization would be rendered here"
                            Style="{StaticResource ChartDescription}" TextAlignment="Center"/>
                     </StackPanel>
@@ -227,11 +252,11 @@
                 <Border Grid.Column="1" Style="{StaticResource ChartCard}" Margin="20,20,0,0">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Image Source="../Assets/bar-chart.png" Width="20" Height="20" Margin="0,0,5,0"/>
+                            <!--<Image Source="../Assets/bar-chart.png" Width="20" Height="20" Margin="0,0,5,0"/> -->
                             <TextBlock Text="Estimated vs Actual" Style="{StaticResource ChartCardTitle}" />
                         </StackPanel>
 
-                        <Image Source="../Assets/bar-placeholder.png" Width="80" Height="80" Margin="20" Opacity="0.5"/>
+                       <!-- <Image Source="../Assets/bar-placeholder.png" Width="80" Height="80" Margin="20" Opacity="0.5"/> -->
                         <TextBlock Text="Bar chart visualization would be rendered here"
                            Style="{StaticResource ChartDescription}" TextAlignment="Center"/>
                     </StackPanel>
