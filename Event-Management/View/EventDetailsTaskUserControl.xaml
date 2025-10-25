@@ -1,0 +1,309 @@
+﻿<UserControl x:Class="Event_Management.View.EventDetailsTaskUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Event_Management.View"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900">
+
+    <Grid Background="#F9FAFB">
+        <ScrollViewer>
+            <StackPanel Margin="30">
+
+                <!-- Header Section -->
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Back and Title -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button Content="← Back"
+                            Width="150" Height="40"
+                            Margin="0,0,20,0"
+                            FontWeight="SemiBold"
+                            Background="White"
+                            BorderBrush="#D1D5DB"
+                            Foreground="#111827"
+                            BorderThickness="1"
+                            Padding="10,0"
+                            Click="BackButton_Click"/>
+                        <StackPanel>
+                            <TextBlock Text="Task Management"
+                                   FontSize="24"
+                                   FontWeight="Bold"
+                                   Foreground="#111827"/>
+                            <TextBlock>
+                            <Run Text="Managing tasks for " />
+                            <Run Text="{Binding Name}" Foreground="#374151"/>
+                            <Run Text="&quot;" />
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!-- Action Buttons -->
+                    <StackPanel Orientation="Horizontal"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right">
+                        <Button Content="Export"
+                            Width="100" Height="40"
+                            FontWeight="SemiBold"
+                            Background="White"
+                            BorderBrush="#D1D5DB"
+                            Foreground="#111827"
+                            BorderThickness="1"
+                             Click="ExportButton_Click"/>
+
+                        <Button Width="120" Height="40"
+                            FontWeight="SemiBold"
+                            Foreground="White"
+                            BorderThickness="0"
+                            Margin="10,0,0,0"
+                            Click="AddTaskButton_Click">
+                            <Button.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Color="#1E293B" Offset="0.0"/>
+                                    <GradientStop Color="#9CA3AF" Offset="1.0"/>
+                                </LinearGradientBrush>
+                            </Button.Background>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="+" FontSize="16" Margin="0,0,5,0"/>
+                                <TextBlock Text="Add Task"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Event Info Card -->
+                <Border Background="#F0FDFA"
+                    BorderBrush="#BFDBFE"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    Padding="20"
+                    Margin="0,10,0,20">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Event Details -->
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Name}" 
+                                   FontSize="20" FontWeight="Bold" Foreground="#111827"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                <TextBlock Text="📅" FontSize="14"/>
+                                <TextBlock Text="{Binding DateTime}" Margin="5,0,0,0" Foreground="#374151"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,3,0,0">
+                                <TextBlock Text="📍" FontSize="14"/>
+                                <TextBlock Text="{Binding Location}" Margin="5,0,0,0" Foreground="#374151"/>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <TextBlock Text="{Binding Type}" 
+                                       Foreground="#111827" 
+                                       FontWeight="SemiBold" Margin="0,0,10,0"/>
+                                <Border Background="#E0E7FF" CornerRadius="8" Padding="6,2">
+                                    <TextBlock Text="{Binding Status}" 
+                                           FontSize="12"
+                                           Foreground="#3730A3" FontWeight="Bold"/>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- Task Count -->
+                        <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Margin="30,0,0,0">
+                            <TextBlock>
+                            <Run Text="{Binding Tasks}" FontWeight="Bold" Foreground="#2563EB" FontSize="16"/>
+                            <Run Text="/" FontWeight="Bold" Foreground="#2563EB" FontSize="16"/>
+                            <Run Text="{Binding Capacity}" FontWeight="Bold" Foreground="#2563EB" FontSize="16"/>
+                            </TextBlock>
+                            <TextBlock Text="Tasks" Foreground="#6B7280" FontSize="12" HorizontalAlignment="Right"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Stats Overview -->
+                <Grid Margin="0,10,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Total Tasks -->
+                    <Border Grid.Column="0" Background="White" CornerRadius="10" Padding="20" BorderBrush="#E5E7EB" BorderThickness="1" Margin="0,0,10,0">
+                        <StackPanel>
+                            <TextBlock Text="TOTAL TASKS" Foreground="#6B7280" FontWeight="SemiBold"/>
+                            <TextBlock Text="{Binding Tasks}" FontSize="22" FontWeight="Bold" Foreground="#111827"/>
+                            <TextBlock Text="{Binding Capacity, StringFormat={}of {0} capacity}" FontSize="12" Foreground="#9CA3AF"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Confirmed -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="10" Padding="20" BorderBrush="#E5E7EB" BorderThickness="1" Margin="0,0,10,0">
+                        <StackPanel>
+                            <TextBlock Text="CONFIRMED" Foreground="#6B7280" FontWeight="SemiBold"/>
+                            <TextBlock Text="1" FontSize="22" FontWeight="Bold" Foreground="#10B981"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Pending -->
+                    <Border Grid.Column="2" Background="White" CornerRadius="10" Padding="20" BorderBrush="#E5E7EB" BorderThickness="1" Margin="0,0,10,0">
+                        <StackPanel>
+                            <TextBlock Text="PENDING" Foreground="#6B7280" FontWeight="SemiBold"/>
+                            <TextBlock Text="1" FontSize="22" FontWeight="Bold" Foreground="#F59E0B"/>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Checked In -->
+                    <Border Grid.Column="3" Background="White" CornerRadius="10" Padding="20" BorderBrush="#E5E7EB" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="CHECKED IN" Foreground="#6B7280" FontWeight="SemiBold"/>
+                            <TextBlock Text="0" FontSize="22" FontWeight="Bold" Foreground="#8B5CF6"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Task List Section -->
+                <StackPanel Margin="10,30,10,0">
+
+                    <!-- Task List Title -->
+                    <TextBlock Text="{Binding Name}"
+                           FontSize="22" FontWeight="Bold" Foreground="#111827" Margin="0,0,0,20"/>
+
+                    <!-- Filters -->
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="SearchTextBox"
+                             Grid.Column="0"
+                             Height="40"
+                             Margin="0,0,10,0"
+                             Padding="10"
+                             Background="White"
+                             BorderBrush="#E5E7EB"
+                             TextChanged="SearchTextBox_TextChanged"
+                             />
+
+
+                        <ComboBox Grid.Column="1"
+                              Height="40"
+                              Margin="0,0,10,0"
+                              Background="White"
+                              BorderBrush="#E5E7EB"
+                              SelectedIndex="0"
+                              SelectionChanged="StatusComboBox_SelectionChanged">
+                            <ComboBoxItem Content="All Status"/>
+                            <ComboBoxItem Content="Confirmed"/>
+                            <ComboBoxItem Content="Pending"/>
+                            <ComboBoxItem Content="Declined"/>
+                        </ComboBox>
+
+
+                        <ComboBox Grid.Column="2"
+                              Height="40"
+                              Background="White"
+                              BorderBrush="#E5E7EB"
+                              SelectedIndex="0"
+                              SelectionChanged="CategoriesComboBox_SelectionChanged">
+                            <ComboBoxItem Content="All Categories"/>
+                            <ComboBoxItem Content="Speaker"/>
+                            <ComboBoxItem Content="Attendee"/>
+                        </ComboBox>
+                    </Grid>
+
+                    <!-- Task Table Placeholder -->
+                    <Border Background="White"
+                        CornerRadius="10"
+                        BorderBrush="#E5E7EB"
+                        BorderThickness="1"
+                        Padding="20">
+
+                        <!--Task table -->
+                        <DataGrid x:Name="TaskTable"
+                          AutoGenerateColumns="False"
+                          HeadersVisibility="Column"
+                          CanUserAddRows="False"
+                          Background="White"
+                          BorderBrush="#E5E7EB"
+                          BorderThickness="1"
+                          RowBackground="White"
+                          AlternatingRowBackground="#F9FAFB"
+                          GridLinesVisibility="None"
+                          RowHeaderWidth="0"
+                          Margin="0"
+                          FontSize="14"
+                          FontFamily="Segoe UI"
+                          Foreground="#111827"
+                          HorizontalGridLinesBrush="#E5E7EB"
+                          VerticalGridLinesBrush="#E5E7EB"
+                          SelectionMode="Single"
+                          SelectionUnit="FullRow"
+                          ColumnHeaderHeight="40"
+                          RowHeight="36"
+                          IsReadOnly="True"
+                          MouseDoubleClick="ShowTaskDeteils_Click"        
+                          >
+
+                            <DataGrid.Resources>
+                                <!-- Header Style -->
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#F3F4F6"/>
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Setter Property="Foreground" Value="#374151"/>
+                                    <Setter Property="Height" Value="40"/>
+                                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                                    <Setter Property="BorderBrush" Value="#D1D5DB"/>
+                                    <Setter Property="Padding" Value="10,5"/>
+                                </Style>
+
+                                <!-- Row Style on Hover -->
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="ToolTip" Value="{Binding Name}"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="Padding" Value="4"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#EFF6FF"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="#DBEAFE"/>
+                                            <Setter Property="Foreground" Value="#111827"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.Resources>
+
+                            <DataGrid.Columns >
+                                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" />
+                                <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" Width="*" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2.5*" />
+                                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="*" />
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*" />
+                                <DataGridCheckBoxColumn Header="Checked In" Binding="{Binding CheckedIn}" Width="Auto" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+            </ScrollViewer>
+    </Grid>
+</UserControl>

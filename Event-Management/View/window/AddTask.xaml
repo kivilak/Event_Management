@@ -1,0 +1,195 @@
+﻿<Window x:Class="Event_Management.View.window.AddTask"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Add New Task"
+        Height="720" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#F4F6F8">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="25">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Header -->
+            <DockPanel Grid.ColumnSpan="3" Margin="0,0,0,30">
+                <Button Content="← Back" FontSize="16" Padding="12,6"
+                        Background="#E8EEF9" Foreground="#2E86DE"
+                        BorderThickness="0" Width="100" Height="35"
+                        Cursor="Hand" />
+                <TextBlock Text="Add New Task" DockPanel.Dock="Right"
+                           FontSize="30" FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" Margin="20,0,0,0"/>
+            </DockPanel>
+
+            <!-- Task Input Section -->
+            <Border Grid.Column="0" Background="White" CornerRadius="12"
+                    Padding="35" Margin="0,50,0,0">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="1"
+                                      Color="Gray" Opacity="0.25"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <!-- Section Header -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,25">
+                        <Ellipse Width="8" Height="8" Fill="#2E86DE"
+                                 VerticalAlignment="Center"/>
+                        <TextBlock Text="Task Information"
+                                   FontSize="18" FontWeight="SemiBold"
+                                   Margin="10,0,0,0"/>
+                    </StackPanel>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Task Name -->
+                        <StackPanel Grid.Row="0" Grid.Column="0">
+                            <TextBlock Text="Task Name" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBox x:Name="TaskNameTextBox"
+                                     Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"
+                                     Height="45" Padding="15,10"
+                                     BorderBrush="#D0D7DE" BorderThickness="1"
+                                     FontSize="14" Foreground="Black"
+                                     Background="#FAFBFC"/>
+                        </StackPanel>
+
+                        <!-- Category -->
+                        <StackPanel Grid.Row="0" Grid.Column="2">
+                            <TextBlock Text="Category" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="CategoryComboBox"
+                                      ItemsSource="{Binding CategoryOptions}"
+                                      SelectedItem="{Binding Category, Mode=TwoWay}"
+                                      Height="45" Padding="10,0" FontSize="14"
+                                      BorderBrush="#D0D7DE" BorderThickness="1"
+                                      Background="#FAFBFC" Foreground="Black"/>
+                        </StackPanel>
+
+                        <!-- Priority -->
+                        <StackPanel Grid.Row="2" Grid.Column="0">
+                            <TextBlock Text="Priority" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="PriorityComboBox"
+                                      ItemsSource="{Binding PriorityOptions}"
+                                      SelectedItem="{Binding Priority, Mode=TwoWay}"
+                                      Height="45" Padding="10,0" FontSize="14"
+                                      BorderBrush="#D0D7DE" BorderThickness="1"
+                                      Background="#FAFBFC"/>
+                        </StackPanel>
+
+                        <!-- Status -->
+                        <StackPanel Grid.Row="2" Grid.Column="2">
+                            <TextBlock Text="Status" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="StatusComboBox"
+                                      ItemsSource="{Binding StatusOptions}"
+                                      SelectedItem="{Binding Status, Mode=TwoWay}"
+                                      Height="45" Padding="10,0" FontSize="14"
+                                      BorderBrush="#D0D7DE" BorderThickness="1"
+                                      Background="#FAFBFC"/>
+                        </StackPanel>
+
+                        <!-- Deadline -->
+                        <StackPanel Grid.Row="4" Grid.Column="0">
+                            <TextBlock Text="Deadline" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <DatePicker x:Name="DeadlinePicker"
+                                        SelectedDate="{Binding Deadline, Mode=TwoWay}"
+                                        Height="45" FontSize="14"
+                                        BorderBrush="#D0D7DE" BorderThickness="1"/>
+                        </StackPanel>
+
+                        <!-- Description -->
+                        <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="3">
+                            <TextBlock Text="Task Description" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <RichTextBox x:Name="DescriptionBox"
+                                         Height="120"
+                                         BorderBrush="#D0D7DE" BorderThickness="1"
+                                         FontSize="14" Foreground="Black"
+                                         Background="#FAFBFC"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Save Button -->
+                    <Button Content="💾 Save Task"
+                            Width="180"
+                            Height="45"
+                            Margin="0,35,0,0"
+                            HorizontalAlignment="Right"
+                            Background="#2E86DE"
+                            Foreground="White"
+                            FontWeight="SemiBold"
+                            BorderThickness="0"
+                            Cursor="Hand"
+                            Command="{Binding SaveCommand}">
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="MouseEnter">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation To="#1B4F91"
+                                                        Duration="0:0:0.3"
+                                                        Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Right Panel: Task Summary -->
+            <Border Grid.Column="2" Background="White" CornerRadius="12"
+                    Padding="25" Margin="0,50,0,0" VerticalAlignment="Top">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" ShadowDepth="1"
+                                      Color="Gray" Opacity="0.25"/>
+                </Border.Effect>
+
+                <StackPanel>
+                    <TextBlock Text="Event Summary" FontSize="18"
+                               FontWeight="SemiBold" Foreground="#2E86DE"
+                               Margin="0,0,0,15"/>
+
+                    <StackPanel>
+                        <TextBlock Text="{Binding EventName}" FontSize="16"
+                                   FontWeight="SemiBold" Margin="0,0,0,10"/>
+                        <TextBlock Text="{Binding EventDate}" FontSize="14" Foreground="Gray" Margin="0,0,0,8"/>
+                        <TextBlock Text="{Binding EventLocation}" FontSize="14" Foreground="Gray"/>
+                    </StackPanel>
+
+                    <Separator Margin="0,20,0,20"/>
+
+                    <StackPanel>
+                        <TextBlock Text="Task Preview" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,15"/>
+                        <TextBlock Text="• Name: Not provided" Foreground="Gray" Margin="0,0,0,8"/>
+                        <TextBlock Text="• Assigned: None" Foreground="Gray" Margin="0,0,0,8"/>
+                        <TextBlock Text="• Deadline: Not set" Foreground="Gray" Margin="0,0,0,8"/>
+
+                        <Border Background="#E9F7EF" CornerRadius="8" Padding="8,4"
+                                HorizontalAlignment="Left" Margin="0,5,0,0">
+                            <TextBlock Text="Status: Pending" Foreground="#1E8449" FontWeight="SemiBold"/>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</Window>
