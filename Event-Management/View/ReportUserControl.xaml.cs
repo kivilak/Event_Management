@@ -36,5 +36,15 @@ namespace Event_Management.View
         {
             MainContent.Content = new BudgetAnalysis();
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExportPDF_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Event_Management.Model
 {
-    class Event
+    public class Event
     {
        // [Key]
         public int? EventId { get; set; }
@@ -26,8 +26,8 @@ namespace Event_Management.Model
         public int GuestCount { get; set; }
 
  
-        public ICollection<Task>? Tasks { get; set; }
-        public ICollection<Guest>? Guests { get; set; }
+       // public ICollection<Task>? Tasks { get; set; }
+        //public ICollection<Guest>? Guests { get; set; }
         public string Name { get; internal set; }
     }
 }

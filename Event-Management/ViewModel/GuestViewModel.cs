@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Event_Management.TestingModel;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
-using Event_Management.TestingModel;
+//using Event_Management.Model;
 using Event = Event_Management.TestingModel.Event;// this is need to be change as using Event = Event_Management.Model.Event;
 
 namespace Event_Management.ViewModel

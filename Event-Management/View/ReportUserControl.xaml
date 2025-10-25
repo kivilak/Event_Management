@@ -29,8 +29,8 @@
 
                 <!-- Button Panel -->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
-                    <Button Content="Print" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" />
-                    <Button Content="Export PDF" Style="{StaticResource PrimaryButton}" />
+                    <Button Content="Print" Style="{StaticResource SecondaryButton}" Margin="0,0,10,0" Click="Button_Click_1" />
+                    <Button Content="Export PDF" Style="{StaticResource PrimaryButton}" Click="ExportPDF_Click" />
                 </StackPanel>
 
                 <!-- Configuration Box -->
