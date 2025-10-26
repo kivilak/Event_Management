@@ -2,7 +2,7 @@
 using Event_Management.Model;
 using Event_Management.TestingModel;
 
-namespace Event_Management.ModelManager
+namespace Event_Management.TestingModel
 {
     public class BudgetManager
     {
