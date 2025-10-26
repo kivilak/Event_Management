@@ -13,10 +13,18 @@ namespace Event_Management.ViewModel
         public BudgetSummary Summary { get; set; }
         public ObservableCollection<BudgetItem> BudgetItems { get; set; }
 
+        public string EventName { get; set; }
+
         public BudgetViewModel()
         {
             _budgetManager = new BudgetManager();
             LoadBudgetData();
+        }
+
+        public BudgetViewModel(TestingModel.Event selectedEvent)
+        {
+            _budgetManager = new BudgetManager(selectedEvent);
+            LoadBudgetData(selectedEvent);
         }
 
         private void LoadBudgetData()
@@ -24,6 +32,14 @@ namespace Event_Management.ViewModel
             Summary = _budgetManager.GetSummary();
             BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetBudgetItems());
         }
+
+        private void LoadBudgetData(TestingModel.Event selectedEvent)
+        {
+            Summary = _budgetManager.GetSummary(selectedEvent.Name);
+            BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetSpecificBudgetItems());
+            EventName = selectedEvent.Name;
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)

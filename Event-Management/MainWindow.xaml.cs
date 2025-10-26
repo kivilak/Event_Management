@@ -111,6 +111,14 @@ namespace Event_Management
             _mainContentArea.Content = reportControl;
         }
 
+        // Navigate to Specific Budget Control
+        public void NavigateToSpecificBudget(Event selectedEvent)
+        {
+            if (selectedEvent == null) return;
+            _mainContentArea.Content = new SpacificBudgetControl(selectedEvent);
+        }
+
+
         // Called when a row is clicked in GuestsUserControl
         public void NavigateToEventDetails(Event selectedEvent)
         {
