@@ -12,30 +12,39 @@ namespace Event_Management.View
     /// </summary>
     public partial class ReportUserControl : UserControl
     {
+        public List<EventSummary> eventSummary = new List<EventSummary>
+        {
+            new EventSummary { EventName = "Tech Conference 2024", Status = "Upcoming", Guests = 500, Budget = 75000, Spent = 54000 },
+            new EventSummary { EventName = "Product Launch", Status = "In Progress", Guests = 300, Budget = 35000, Spent = 28000 },
+            new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 },
+            new EventSummary { EventName = "Tech Conference 2024", Status = "Ongoing", Guests = 500, Budget = 75000, Spent = 54000 },
+            new EventSummary { EventName = "Product Launch", Status = "Planning", Guests = 300, Budget = 35000, Spent = 28000 },
+            new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 }
+        };
         public ReportUserControl()
         {
             InitializeComponent();
-            MainContent.Content = new EventSummary();
+            MainContent.Content = new EventSummaryView(eventSummary);
         }
 
         private void EventSummary_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new EventSummary();
+            MainContent.Content = new EventSummaryView(eventSummary);
         }
 
         private void GuestAttendance_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new GuestAttendance();
+            MainContent.Content = new GuestAttendanceView();
         }
 
         private void TaskProgress_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new TaskProgress();
+            MainContent.Content = new TaskProgressView();
         }
 
         private void BudgetAnalysis_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new BudgetAnalysis();
+            MainContent.Content = new BudgetAnalysisView();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -45,7 +54,7 @@ namespace Event_Management.View
 
         private void ExportPDF_Click(object sender, RoutedEventArgs e)
         {
-            //ExportToPdf();
+            ExportToPdf();
         }
 
         // In your controller or main method
@@ -54,7 +63,7 @@ namespace Event_Management.View
             var generator = new PDFGenerator();
             string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
-            generator.Generate(filePath);
+            generator.Generate(filePath, eventSummary);
 
             Console.WriteLine($"PDF created at: {filePath}");
         }

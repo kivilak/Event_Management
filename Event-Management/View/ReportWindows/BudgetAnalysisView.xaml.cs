@@ -18,9 +18,9 @@ namespace Event_Management.View.ReportWindows
     /// <summary>
     /// Interaction logic for BudgetAnalysis.xaml
     /// </summary>
-    public partial class BudgetAnalysis : UserControl
+    public partial class BudgetAnalysisView : UserControl
     {
-        public BudgetAnalysis()
+        public BudgetAnalysisView()
         {
             InitializeComponent();
         }

@@ -18,8 +18,9 @@ namespace Event_Management.Model
         {
             var budgets = new ObservableCollection<Budget>();
             var db = DatabaseManager.Instance;
-            var query = "SELECT * FROM Budget";
-            //var query = "SELECT BudgetId, Category, Estimated, Actual, Difference, Status, EventId, Event FROM Budget, Event WHERE Budget.EventId = Event.EventId";
+            //var query = "SELECT * FROM Budget";
+            var query = "SELECT b.BudgetId, b.Category, b.Estimated, b.Actual, b.EventId, e.event_name " +
+                        "FROM Budget AS b, events AS e WHERE b.EventId = e.event_id";
 
             try
             {
@@ -32,8 +33,8 @@ namespace Event_Management.Model
                         {
                             BudgetId = Convert.ToInt32(reader["BudgetId"]),
                             Category = reader["Category"]?.ToString(),
-                            Event = "Tech Conference 2024",
-                            //Event = reader["Event"]?.ToString(),
+                            //EventName = "Tech Conference 2024",
+                            EventName = reader["event_name"]?.ToString(),
                             Estimated = Convert.ToDouble(reader["Estimated"]),
                             Actual = Convert.ToDouble(reader["Actual"]),
                             EventId = Convert.ToInt32(reader["EventId"])
