@@ -191,7 +191,7 @@
                               CanUserResizeRows="False"
                               GridLinesVisibility="None">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}" Width="2*" />
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="2*" />
                             <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="2*" />
                             <DataGridTextColumn Header="Estimated" Binding="{Binding Estimated}" Width="2*" />
                             <DataGridTextColumn Header="Actual" Binding="{Binding Actual}" Width="1.5*" />

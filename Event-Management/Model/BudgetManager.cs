@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Event_Management.TestingModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Event_Management.Model
 {
-    class BudgetManager
+    public class BudgetManager
     {
         public ObservableCollection<Budget> Budgets { get; set; }
 
@@ -35,12 +36,11 @@ namespace Event_Management.Model
                             //Event = reader["Event"]?.ToString(),
                             Estimated = Convert.ToDouble(reader["Estimated"]),
                             Actual = Convert.ToDouble(reader["Actual"]),
-                            Difference = Convert.ToDouble(reader["Difference"]),
-                            Status = reader["Status"].ToString(),
                             EventId = Convert.ToInt32(reader["EventId"])
                         };
 
                         budgets.Add(budget);
+                        Console.WriteLine(budget.ToString());
                     }
                 }
             }
@@ -52,6 +52,16 @@ namespace Event_Management.Model
             return budgets;
         }
 
+        public BudgetSummary GetSummary()
+        {
+            // Simulated data — you can later replace with DB query
+            return new BudgetSummary
+            {
+                TotalBudget = 45000,
+                Spent = 42500,
+                OverBudgetItems = 2
+            };
+        }
         public async Task<bool> AddBudget(Budget budget)
         {
             var db = DatabaseManager.Instance;

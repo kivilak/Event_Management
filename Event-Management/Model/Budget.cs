@@ -14,8 +14,16 @@ namespace Event_Management.Model
         public string? Event { get; set; }
         public double? Estimated { get; set; }
         public double? Actual { get; set; }
-        public double? Difference { get; set; }
-        public string? Status { get; set; }
+        public double? Difference => Actual - Estimated;
+        public string? Status
+        {
+            get
+            {
+                if (Actual > Estimated) return "Over Budget";
+                if (Actual < Estimated) return "Under Budget";
+                return "On Budget";
+            }
+        }
 
         //[ForeignKey("EventId")]
         public int? EventId { get; set; }

@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using Event_Management.Model;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Event_Management.Model;
-using Event_Management.ModelManager;
-using Event_Management.TestingModel;
+using BudgetManager = Event_Management.Model.BudgetManager;
+using BudgetSummary = Event_Management.Model.BudgetSummary;
 
 namespace Event_Management.ViewModel
 {
@@ -11,19 +11,23 @@ namespace Event_Management.ViewModel
         private readonly BudgetManager _budgetManager;
 
         public BudgetSummary Summary { get; set; }
-        public ObservableCollection<BudgetItem> BudgetItems { get; set; }
+        public ObservableCollection<Budget> BudgetItems { get; set; }
 
         public BudgetViewModel()
         {
             _budgetManager = new BudgetManager();
-            LoadBudgetData();
+            //LoadBudgetData();
+
+            BudgetItems = new ObservableCollection<Budget>();
+            LoadBudgetDataAsync();
         }
 
-        private void LoadBudgetData()
+        private async void LoadBudgetDataAsync()
         {
-            Summary = _budgetManager.GetSummary();
-            BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetBudgetItems());
+            BudgetItems = await _budgetManager.GetAllBudgets();
+            OnPropertyChanged(nameof(BudgetItems));
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
