@@ -17,7 +17,7 @@ namespace Event_Management.View
             
             InitializeComponent();
             this.selectedEvent = selectedEvent ?? throw new ArgumentNullException(nameof(selectedEvent));
-            DataContext = new BudgetViewModel(this.selectedEvent);
+            //DataContext = new BudgetViewModel(this.selectedEvent);
         }
 
         public void AddBugdetBtn_Click(object sender, RoutedEventArgs e)

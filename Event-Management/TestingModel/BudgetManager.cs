@@ -83,8 +83,8 @@ namespace Event_Management.TestingModel
 
             return new BudgetSummary
             {
-                TotalBudget = total,
-                Spent = spent,
+                TotalBudget = (double)total,
+                Spent = (double)spent,
                 OverBudgetItems = overBudgetItems
             };
         }
@@ -102,8 +102,8 @@ namespace Event_Management.TestingModel
 
             return new BudgetSummary
             {
-                TotalBudget = total,
-                Spent = spent,
+                TotalBudget = (double)total,
+                Spent = (double)spent,
                 OverBudgetItems = overBudgetItems
             };
         }
@@ -118,8 +118,8 @@ namespace Event_Management.TestingModel
 
             return new BudgetSummary
             {
-                TotalBudget = total,
-                Spent = spent,
+                TotalBudget = (double)total,
+                Spent = (double)spent,
                 OverBudgetItems = overBudgetItems
             };
         }

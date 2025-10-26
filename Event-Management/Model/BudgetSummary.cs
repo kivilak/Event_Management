@@ -8,12 +8,12 @@ namespace Event_Management.Model
 {
    public class BudgetSummary
     {
-        public decimal TotalBudget { get; set; }
-        public decimal Spent { get; set; }
-        public decimal Remaining => TotalBudget - Spent;
+        public double TotalBudget { get; set; }
+        public double Spent { get; set; }
+        public double Remaining => TotalBudget - Spent;
         public int OverBudgetItems { get; set; }
-        public decimal PracentationOfSpent => (TotalBudget == 0) ? 0 : (Spent / TotalBudget) * 100;
-        public decimal PercentageOfSpent => (TotalBudget == 0) ? 0 : Math.Round((Spent / TotalBudget) * 100, 2);
+        public double PracentationOfSpent => (TotalBudget == 0) ? 0 : (Spent / TotalBudget) * 100;
+        public double PercentageOfSpent => (TotalBudget == 0) ? 0 : Math.Round((Spent / TotalBudget) * 100, 2);
 
     }
 }

@@ -20,20 +20,25 @@ namespace Event_Management.ViewModel
             _budgetManager = new BudgetManager();
             //LoadBudgetData();
 
-            BudgetItems = new ObservableCollection<Budget>();
+            //BudgetItems = new ObservableCollection<Budget>();
             LoadBudgetDataAsync();
         }
+
 
         private async void LoadBudgetDataAsync()
         {
             BudgetItems = await _budgetManager.GetAllBudgets();
             OnPropertyChanged(nameof(BudgetItems));
+
+            Summary = await _budgetManager.GetSummaryAsync();
+            OnPropertyChanged(nameof(Summary));
         }
+
 
         private void LoadBudgetData(TestingModel.Event selectedEvent)
         {
-            Summary = _budgetManager.GetSummary(selectedEvent.Name);
-            BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetSpecificBudgetItems());
+           // Summary = _budgetManager.GetSummary(selectedEvent.Name);
+            //BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetSpecificBudgetItems());
             EventName = selectedEvent.Name;
         }
 
