@@ -1,5 +1,7 @@
 ﻿using Event_Management.TestingModel;
+using Event_Management.View.window;
 using Event_Management.ViewModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Event_Management.View
@@ -16,6 +18,12 @@ namespace Event_Management.View
             InitializeComponent();
             this.selectedEvent = selectedEvent ?? throw new ArgumentNullException(nameof(selectedEvent));
             DataContext = new BudgetViewModel(this.selectedEvent);
+        }
+
+        public void AddBugdetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            AddBudgetItem addBudgetWindow = new AddBudgetItem(selectedEvent);
+            addBudgetWindow.ShowDialog();
         }
     }
 }
