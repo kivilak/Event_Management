@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace Event_Management.TestingModel
+namespace Event_Management.Model
 {
     class TaskManager
     {
@@ -36,7 +35,7 @@ namespace Event_Management.TestingModel
                             Category = reader["Category"]?.ToString(),
                             Description = reader["Description"]?.ToString(),
                             Status = reader["Status"]?.ToString(),
-                            Priority = reader["Priority"]?.ToString(),                           
+                            Priority = reader["Priority"]?.ToString(),
                             CheckedIn = Convert.ToBoolean(reader["CheckedIn"]),
                             EventId = Convert.ToInt32(reader["EventId"])
                         };
@@ -87,7 +86,7 @@ namespace Event_Management.TestingModel
         {
             var db = DatabaseManager.Instance;
             var query = "DELETE FROM Task WHERE TaskId = @TaskId";
-            
+
             try
             {
                 using (var command = db.CreateCommand(query))

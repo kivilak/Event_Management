@@ -86,7 +86,7 @@ namespace Event_Management
         private void LoadTasksView()
         {
             var tasksControl = new TasksUserControl();
-            tasksControl.EventSelected += NavigateToEventDetails;
+            tasksControl.EventSelected += NavigateToEventDetailsTask;
             _mainContentArea.Content = tasksControl;
         }
 
@@ -126,6 +126,13 @@ namespace Event_Management
             _mainContentArea.Content = detailsControl;
         }
 
+        // Called when a row is clicked in GuestsUserControl
+        public void NavigateToEventDetailsTask(Event selectedEvent)
+        {
+            var detailsControl = new EventDetailsTaskUserControl(selectedEvent);
+            _mainContentArea.Content = detailsControl;
+        }
+
         // Handles button styling for active state
         private void SetActiveButton(Button newActiveButton)
         {
@@ -142,6 +149,14 @@ namespace Event_Management
             var guestsControl = new GuestsUserControl();
             guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = guestsControl;
+        }
+
+        // Navigate to the Task window in many places
+        public void NavigateToTasksView()
+        {
+            var tasksControl = new TasksUserControl();
+            tasksControl.EventSelected += NavigateToEventDetails;
+            _mainContentArea.Content = tasksControl;
         }
     }
 }
