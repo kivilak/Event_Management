@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using Event_Management.TestingModel;
+using Event_Management.Model;
 
 namespace Event_Management.TestingModel
 {

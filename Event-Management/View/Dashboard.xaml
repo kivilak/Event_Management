@@ -99,10 +99,10 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Event Fields -->
-                    <TextBlock Grid.Column="0" Text="{Binding Name}" Style="{StaticResource NameTextStyle}"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Type}" Style="{StaticResource DataTextStyle}"/>
-                    <TextBlock Grid.Column="2" Text="{Binding DateTime}" Style="{StaticResource DataTextStyle}"/>
-                    <TextBlock Grid.Column="3" Text="{Binding Location}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="0" Text="{Binding EventName}" Style="{StaticResource NameTextStyle}"/>
+                    <TextBlock Grid.Column="1" Text="{Binding EventType}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="2" Text="{Binding EventDate}" Style="{StaticResource DataTextStyle}"/>
+                    <TextBlock Grid.Column="3" Text="{Binding VenueName}" Style="{StaticResource DataTextStyle}"/>
                     <TextBlock Grid.Column="4" Text="{Binding Status}" Style="{StaticResource StatusTextStyle}"/>
                     <TextBlock Grid.Column="5" Text="{Binding GuestSummary}" Style="{StaticResource DataTextStyle}"/>
                     <TextBlock Grid.Column="6" Text="{Binding Budget, StringFormat={}{0:C}}" Style="{StaticResource BudgetTextStyle}"/>

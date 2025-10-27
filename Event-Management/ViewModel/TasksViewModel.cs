@@ -74,11 +74,11 @@ namespace Event_Management.ViewModel
 
             // Search text filter
             bool matchesSearch = string.IsNullOrWhiteSpace(SearchQuery) ||
-                                 evt.Name.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                 evt.Location.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
+                                 evt.EventName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
+                                 evt.VenueName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase);
 
             // Type filter
-            bool matchesType = SelectedType == "All Types" || evt.Type == SelectedType;
+            bool matchesType = SelectedType == "All Types" || evt.EventType == SelectedType;
 
             // Status filter
             bool matchesStatus = SelectedStatus == "All Status" || evt.Status == SelectedStatus;

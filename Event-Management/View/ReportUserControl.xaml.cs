@@ -49,14 +49,14 @@ namespace Event_Management.View
         }
 
         // In your controller or main method
-        public void ExportToPdf()
-        {
-            var generator = new PDFGenerator();
-            string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
+        //public void ExportToPdf()
+        //{
+        //    var generator = new PDFGenerator();
+        //    string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
-            generator.Generate(filePath);
+        //    generator.Generate(filePath);
 
-            Console.WriteLine($"PDF created at: {filePath}");
-        }
+        //    Console.WriteLine($"PDF created at: {filePath}");
+        //}
     }
 }

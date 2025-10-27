@@ -52,15 +52,15 @@ namespace Event_Management.ViewModel
             set { eventDate = value; OnPropertyChanged(nameof(EventDate)); }
         }
 
-        private string startTime;
-        public string StartTime
+        private TimeSpan startTime;
+        public TimeSpan StartTime
         {
             get => startTime;
             set { startTime = value; OnPropertyChanged(nameof(StartTime)); }
         }
 
-        private string endTime;
-        public string EndTime
+        private TimeSpan endTime;
+        public TimeSpan EndTime
         {
             get => endTime;
             set { endTime = value; OnPropertyChanged(nameof(EndTime)); }
@@ -162,12 +162,17 @@ namespace Event_Management.ViewModel
         }
 
         private bool isFreeEvent;
-        
         public bool IsFreeEvent
         {
             get => isFreeEvent;
             set { isFreeEvent = value; OnPropertyChanged(nameof(IsFreeEvent)); }
         }
+
+        // Helper property to check if event has capacity
+        public bool HasAvailableCapacity => CurrentRegistrations < MaximumCapacity;
+
+        // Helper property to get remaining capacity
+        public int RemainingCapacity => MaximumCapacity - CurrentRegistrations;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName) =>
@@ -188,33 +193,34 @@ namespace Event_Management.ViewModel
         private static void Save()
         {
             //nedd to implement the logic to save the event details,call the method from EventManager class (addEvent mrthod)
+
             System.Windows.MessageBox.Show("Event Saved Successfully!", "Success");
         }
 
-        private static void Clear()
+        public void Clear()
         {
-            //EventName = string.Empty;
-            //EventType = string.Empty;
-            //Category = string.Empty;
-            //Tags = string.Empty;
-            //Description = string.Empty;
-            //EventDate = null;
-            //StartTime = string.Empty;
-            //EndTime = string.Empty;
-            //VenueName = string.Empty;
-            //City = string.Empty;
-            //State = string.Empty;
-            //MaximumCapacity = 0;
-            //CurrentRegistrations = 0;
-            //AllowWaitlist = false;
-            //Email = string.Empty;
-            //Website = string.Empty;
-            //Phone = string.Empty;
-            //RegularPrice = 0;
-            //EarlyBirdPrice = 0;
-            //VipPrice = 0;
-            //IsFreeEvent = false;
-            System.Windows.MessageBox.Show("Clear the form", "Success");
+            EventName = string.Empty;
+            EventType = string.Empty;
+            Category = string.Empty;
+            Tags = string.Empty;
+            Description = string.Empty;
+            EventDate = null;
+            StartTime = TimeSpan.Zero;
+            EndTime = TimeSpan.Zero;
+            VenueName = string.Empty;
+            Street = string.Empty;
+            City = string.Empty;
+            State = string.Empty;
+            MaximumCapacity = 0;
+            CurrentRegistrations = 0;
+            AllowWaitlist = false;
+            Email = string.Empty;
+            Website = string.Empty;
+            Phone = string.Empty;
+            RegularPrice = 0;
+            EarlyBirdPrice = 0;
+            VipPrice = 0;
+            IsFreeEvent = false;
         }
     }
 }
