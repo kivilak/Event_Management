@@ -65,11 +65,12 @@ public ReportUserControl()
         }
 
         // In your controller or main method
-        public void ExportToPdf()
-        {
-            var generator = new PDFGenerator();
-            string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
+        //public void ExportToPdf()
+        //{
+        //    var generator = new PDFGenerator();
+        //    string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
+<<<<<<< HEAD
             //generator.Generate(filePath);
 
             Console.WriteLine($"PDF created at: {filePath}");
@@ -80,5 +81,11 @@ public ReportUserControl()
             var result = await reportManager.GetAllEventSummary();
             return [.. result];
         }
+=======
+        //    generator.Generate(filePath);
+
+        //    Console.WriteLine($"PDF created at: {filePath}");
+        //}
+>>>>>>> d0c6a92 (Set up Events properties in related areas)
     }
 }

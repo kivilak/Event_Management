@@ -84,10 +84,12 @@ namespace Event_Management.ViewModel
         public string Dietary { get => _dietary; set { _dietary = value; OnPropertyChanged(nameof(Dietary)); } }
 
         // Event info
-        public string EventName => _event?.Name ?? "Unknown Event";
-        public string EventDate => _event?.DateTime != null ? DateTime.Parse(_event.DateTime).ToString("M/d/yyyy") : "N/A";
-        public string EventLocation => _event?.Location ?? "Unknown Location";
-        public string EventType => _event?.Type ?? "Unknown Category";
+        public string EventName => _event?.EventName ?? "Unknown Event";
+        public string EventDate => _event?.EventDate != default(DateTime)
+           ? _event.EventDate.ToString("M/d/yyyy")
+           : "N/A";
+        public string EventLocation => _event?.VenueName ?? "Unknown Location";
+        public string EventType => _event?.EventType ?? "Unknown Category";
 
         public ICommand SaveCommand { get; }
         public Action CloseAction { get; set; }

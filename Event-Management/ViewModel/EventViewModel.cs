@@ -121,7 +121,7 @@ namespace Event_Management.ViewModel
         {
             if (parameter is Event selectedEvent)
             {
-                MessageBox.Show($"{selectedEvent.Name} from Tasks button", "Task Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show($"{selectedEvent.EventName} from Tasks button", "Task Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -159,14 +159,14 @@ namespace Event_Management.ViewModel
                 
 
             if (SelectedType != "All Types")
-                filtered = filtered.Where(ev => ev.Type == SelectedType);
+                filtered = filtered.Where(ev => ev.EventType == SelectedType);
 
             if (!string.IsNullOrWhiteSpace(SearchQuery))
             {
                 string query = SearchQuery.ToLower();
                 filtered = filtered.Where(ev =>
-                    (!string.IsNullOrEmpty(ev.Name) && ev.Name.ToLower().Contains(query)) ||
-                    (!string.IsNullOrEmpty(ev.Location) && ev.Location.ToLower().Contains(query))
+                    (!string.IsNullOrEmpty(ev.EventName) && ev.EventName.ToLower().Contains(query)) ||
+                    (!string.IsNullOrEmpty(ev.VenueName) && ev.VenueName.ToLower().Contains(query))
                 );
             }
 
