@@ -54,7 +54,7 @@ namespace Event_Management.View
             var generator = new PDFGenerator();
             string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
-            generator.Generate(filePath);
+            //generator.Generate(filePath);
 
             Console.WriteLine($"PDF created at: {filePath}");
         }

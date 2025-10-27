@@ -13,19 +13,33 @@ namespace Event_Management.ViewModel
         public BudgetSummary Summary { get; set; }
         public ObservableCollection<Budget> BudgetItems { get; set; }
 
+        public string EventName { get; set; }
+
         public BudgetViewModel()
         {
             _budgetManager = new BudgetManager();
             //LoadBudgetData();
 
-            BudgetItems = new ObservableCollection<Budget>();
+            //BudgetItems = new ObservableCollection<Budget>();
             LoadBudgetDataAsync();
         }
+
 
         private async void LoadBudgetDataAsync()
         {
             BudgetItems = await _budgetManager.GetAllBudgets();
             OnPropertyChanged(nameof(BudgetItems));
+
+            Summary = await _budgetManager.GetSummaryAsync();
+            OnPropertyChanged(nameof(Summary));
+        }
+
+
+        private void LoadBudgetData(TestingModel.Event selectedEvent)
+        {
+           // Summary = _budgetManager.GetSummary(selectedEvent.Name);
+            //BudgetItems = new ObservableCollection<BudgetItem>(_budgetManager.GetSpecificBudgetItems());
+            EventName = selectedEvent.Name;
         }
 
 
