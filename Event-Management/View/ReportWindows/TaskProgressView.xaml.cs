@@ -18,9 +18,9 @@ namespace Event_Management.View.ReportWindows
     /// <summary>
     /// Interaction logic for TaskProgress.xaml
     /// </summary>
-    public partial class TaskProgress : UserControl
+    public partial class TaskProgressView : UserControl
     {
-        public TaskProgress()
+        public TaskProgressView()
         {
             InitializeComponent();
             progressGrid.ItemsSource = new List<dynamic>

@@ -192,7 +192,7 @@
                               GridLinesVisibility="None">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="2*" />
-                            <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="2*" />
+                            <DataGridTextColumn Header="Event" Binding="{Binding EventName}" Width="2*" />
                             <DataGridTextColumn Header="Estimated" Binding="{Binding Estimated}" Width="2*" />
                             <DataGridTextColumn Header="Actual" Binding="{Binding Actual}" Width="1.5*" />
                             <DataGridTextColumn Header="Difference" Binding="{Binding Difference}" Width="2*" />

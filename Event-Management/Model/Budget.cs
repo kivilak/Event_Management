@@ -11,7 +11,7 @@ namespace Event_Management.Model
         //[Key]
         public int BudgetId { get; set; }
         public string? Category { get; set; }
-        public string? Event { get; set; }
+        public string? EventName { get; set; }
         public double? Estimated { get; set; }
         public double? Actual { get; set; }
         public double? Difference => Actual - Estimated;

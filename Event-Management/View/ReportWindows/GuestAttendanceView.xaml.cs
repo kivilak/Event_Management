@@ -18,9 +18,9 @@ namespace Event_Management.View.ReportWindows
     /// <summary>
     /// Interaction logic for GuestAttendance.xaml
     /// </summary>
-    public partial class GuestAttendance : UserControl
+    public partial class GuestAttendanceView : UserControl
     {
-        public GuestAttendance()
+        public GuestAttendanceView()
         {
             InitializeComponent();
             attendanceGrid.ItemsSource = new List<dynamic>
