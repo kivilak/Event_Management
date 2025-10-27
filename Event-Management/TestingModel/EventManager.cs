@@ -1,176 +1,313 @@
 ﻿using Event_Management.Model;
 using System;
 using System.Collections.ObjectModel;
+using Event_Management.TestingModel;
 
 namespace Event_Management.TestingModel
+
 {
     public class EventManager
     {
-        public static ObservableCollection<Event> Events { get; set; } = new()
-        { 
-                    new Event
+
+
+        // Singleton instance
+        private static EventManager _instance;
+        public EventManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new EventManager();
+                return _instance;
+            }
+        }
+
+        private EventManager() { }
+        public async Task<ObservableCollection<Event>> GetAllEvents()
+        {
+            var events = new ObservableCollection<Event>();
+            var db = DatabaseManager.Instance;
+            var query = "SELECT * FROM Events";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
                     {
-                        EventName = "Tech Expo 2025",
-                        EventType = "Conference",
-                        Category = "Technology",
-                        Tags = new List<string> { "tech", "innovation", "networking" },
-                        Description = "Annual technology exposition featuring latest innovations and industry leaders",
-                        EventDate = new DateTime(2025, 8, 20),
-                        StartTime = TimeSpan.Parse("10:00:00"),
-                        EndTime = TimeSpan.Parse("18:00:00"),
-                        VenueName = "Colombo City Center",
-                        StreetAddress = "123 Main Street",
-                        City = "Colombo",
-                        StateProvince = "Western Province",
-                        MaximumCapacity = 500,
-                        CurrentRegistrations = 120,
-                        OrgContact = "0123456789",
-                        OrgEmail = "",
-                        OrgWeb = "www.techexpo2025.com",
-                        RegularPrice = 5000.00m,
-                        EarlyBirdPrice = 3500.00m,
-                        VipPrice = 8000.00m,
-                        IsFreeEvent = false
-                    },
-                    new Event
-                    {
-                        EventName = "Corporate Meetup",
-                        EventType = "Corporate",
-                        Category = "Business",
-                        Tags = new List<string> { "corporate", "networking", "professional" },
-                        Description = "Quarterly corporate networking event for business professionals",
-                        EventDate = new DateTime(2025, 7, 15),
-                        StartTime = TimeSpan.Parse("14:00:00"),
-                        EndTime = TimeSpan.Parse("17:00:00"),
-                        VenueName = "Hilton Hotel",
-                        StreetAddress = "456 Galle Road",
-                        City = "Colombo",
-                        StateProvince = "Western Province",
-                        MaximumCapacity = 200,
-                        CurrentRegistrations = 75,
-                        OrgContact = "0987654321",
-                        OrgEmail = "",
-                        OrgWeb = "www.corporatemeetup.com",
-                        RegularPrice = 3000.00m,
-                        EarlyBirdPrice = 2000.00m,
-                        VipPrice = 5000.00m,
-                        IsFreeEvent = false
-                    },
-                    new Event
-                    {
-                        EventName = "Planning Retreat",
-                        EventType = "Corporate",
-                        Category = "Team Building",
-                        Tags = new List<string> { "retreat", "planning", "strategy" },
-                        Description = "Strategic planning retreat for senior management",
-                        EventDate = new DateTime(2025, 7, 25),
-                        StartTime = TimeSpan.Parse("09:00:00"),
-                        EndTime = TimeSpan.Parse("16:00:00"),
-                        VenueName = "Jetwing Blue",
-                        StreetAddress = "789 Beach Road",
-                        City = "Negombo",
-                        StateProvince = "Western Province",
-                        MaximumCapacity = 100,
-                        CurrentRegistrations = 60,
-                        OrgContact = "0112233445",
-                        OrgEmail = "",
-                        OrgWeb = "www.planningretreat.com",
-                        RegularPrice = 7500.00m,
-                        EarlyBirdPrice = 6000.00m,
-                        VipPrice = 10000.00m,
-                        IsFreeEvent = false
-                    },
-                    new Event
-                    {
-                        EventName = "Live Charity Stream",
-                        EventType = "Fundraiser",
-                        Category = "Charity",
-                        Tags = new List<string> { "charity", "online", "fundraising" },
-                        Description = "24-hour live streaming event to raise funds for local charities",
-                        EventDate = new DateTime(2025, 7, 10),
-                        StartTime = TimeSpan.Parse("18:00:00"),
-                        EndTime = TimeSpan.Parse("18:00:00"),
-                        VenueName = "Online",
-                        StreetAddress = "Virtual Event",
-                        City = "Online",
-                        StateProvince = "N/A",
-                        MaximumCapacity = 1000,
-                        CurrentRegistrations = 320,
-                        OrgContact = "0119988776",
-                        OrgEmail = "",
-                        OrgWeb = "www.livecharitystream.com",
-                        RegularPrice = 0.00m,
-                        EarlyBirdPrice = 0.00m,
-                        VipPrice = 0.00m,
-                        IsFreeEvent = true
-                    },
-                    new Event
-                    {
-                        EventName = "Fundraiser Night",
-                        EventType = "Fundraiser",
-                        Category = "Charity",
-                        Tags = new List<string> { "charity", "gala", "fundraising" },
-                        Description = "Elegant charity gala dinner with live entertainment and auction",
-                        EventDate = new DateTime(2025, 6, 30),
-                        StartTime = TimeSpan.Parse("19:00:00"),
-                        EndTime = TimeSpan.Parse("23:00:00"),
-                        VenueName = "Galle Face Hotel",
-                        StreetAddress = "2 Galle Road",
-                        City = "Colombo",
-                        StateProvince = "Western Province",
-                        MaximumCapacity = 250,
-                        CurrentRegistrations = 180,
-                        OrgContact = "0115566778",
-                        OrgEmail = "",
-                        OrgWeb = "www.fundraisernight.com",
-                        RegularPrice = 10000.00m,
-                        EarlyBirdPrice = 8000.00m,
-                        VipPrice = 15000.00m,
-                        IsFreeEvent = false
+                        var eventItem = new Event
+                        {
+                            EventName = reader["EventName"] == DBNull.Value ? "" : reader["EventName"].ToString(),
+                            EventType = reader["EventType"] == DBNull.Value ? "" : reader["EventType"].ToString(),
+                            Category = reader["Category"] == DBNull.Value ? "" : reader["Category"].ToString(),
+                            Description = reader["Description"] == DBNull.Value ? "" : reader["Description"].ToString(),
+                            EventDate = Convert.ToDateTime(reader["EventDate"]),
+                            StartTime = (TimeSpan)(reader["StartTime"]),
+                            EndTime = (TimeSpan)(reader["EndTime"]),
+                            VenueName = reader["VenueName"] == DBNull.Value ? "" : reader["VenueName"].ToString(),
+                            StreetAddress = reader["StreetAddress"] == DBNull.Value ? "" : reader["StreetAddress"].ToString(),
+                            City = reader["City"] == DBNull.Value ? "" : reader["City"].ToString(),
+                            StateProvince = reader["StateProvince"] == DBNull.Value ? "" : reader["StateProvince"].ToString(),
+                            MaximumCapacity = Convert.ToInt32(reader["MaximumCapacity"]),
+                            CurrentRegistrations = Convert.ToInt32(reader["CurrentRegistrations"]),
+                            OrgContact = reader["OrgContact"] == DBNull.Value ? "" : reader["OrgContact"].ToString(),
+                            OrgEmail = reader["OrgEmail"] == DBNull.Value ? "" : reader["OrgEmail"].ToString(),
+                            OrgWeb = reader["OrgWeb"] == DBNull.Value ? "" : reader["OrgWeb"].ToString(),
+                            RegularPrice = Convert.ToDecimal(reader["RegularPrice"]),
+                            EarlyBirdPrice = Convert.ToDecimal(reader["EarlyBirdPrice"]),
+                            VipPrice = Convert.ToDecimal(reader["VipPrice"]),
+                            IsFreeEvent = Convert.ToBoolean(reader["IsFreeEvent"])
+                        };
+                        events.Add(eventItem);
                     }
-                };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving events: {ex.Message}");
+            }
 
-        public static ObservableCollection<Event> GetEvents()
-        {
-            return Events;
+            return events;
         }
 
-        public static void AddEvent(Event e) 
+        public async Task<bool> AddEvent(Task task)
         {
-            Events.Add(e);
+            var db = DatabaseManager.Instance;
+            var query = "INSERT INTO Events(EventName, EventType, Category, Description, EventDate, StartTime, EndTime, VenueName, StreetAddress, City, StateProvince, MaximumCapacity, CurrentRegistrations, OrgContact, OrgEmail, OrgWeb, RegularPrice, EarlyBirdPrice, VipPrice, IsFreeEvent)" +
+                "VALUES(@EventName, @EventType, @Category, @Description, @EventDate, @StartTime, @EndTime, @VenueName, @StreetAddress, @City, @StateProvince, @MaximumCapacity, @CurrentRegistrations, @OrgContact, @OrgEmail, @OrgWeb, @RegularPrice, @EarlyBirdPrice, @VipPrice, @IsFreeEvent)";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@Title", task.Title ?? "");
+                    command.Parameters.AddWithValue("@Category", task.Category ?? "");
+                    command.Parameters.AddWithValue("@Description", task.Description ?? "");
+                    command.Parameters.AddWithValue("@Status", task.Status ?? "");
+                    command.Parameters.AddWithValue("@Priority", task.Priority ?? "");
+                    command.Parameters.AddWithValue("@CheckedIn", task.CheckedIn);
+                    command.Parameters.AddWithValue("@EventId", task.EventId);
+
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while adding guest: {ex.Message}");
+                return false;
+            }
+
         }
 
-        public static Event GetEventById(int Id)
+        public async Task<bool> AddEvent(Event eventItem)
         {
-            return Events[Id];
+            var db = DatabaseManager.Instance;
+            var query = "INSERT INTO Events (EventName, EventType, Category, Description, EventDate, StartTime, EndTime, " +
+                        "VenueName, StreetAddress, City, StateProvince, MaximumCapacity, CurrentRegistrations, " +
+                        "OrgContact, OrgEmail, OrgWeb, RegularPrice, EarlyBirdPrice, VipPrice, IsFreeEvent) " +
+                        "VALUES (@EventName, @EventType, @Category, @Description, @EventDate, @StartTime, @EndTime, " +
+                        "@VenueName, @StreetAddress, @City, @StateProvince, @MaximumCapacity, @CurrentRegistrations, " +
+                        "@OrgContact, @OrgEmail, @OrgWeb, @RegularPrice, @EarlyBirdPrice, @VipPrice, @IsFreeEvent)";
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@EventName", eventItem.EventName ?? "");
+                    command.Parameters.AddWithValue("@EventType", eventItem.EventType ?? "");
+                    command.Parameters.AddWithValue("@Category", eventItem.Category ?? "");
+                    command.Parameters.AddWithValue("@Description", eventItem.Description ?? "");
+                    command.Parameters.AddWithValue("@EventDate", eventItem.EventDate);
+                    command.Parameters.AddWithValue("@StartTime", eventItem.StartTime);
+                    command.Parameters.AddWithValue("@EndTime", eventItem.EndTime);
+                    command.Parameters.AddWithValue("@VenueName", eventItem.VenueName ?? "");
+                    command.Parameters.AddWithValue("@StreetAddress", eventItem.StreetAddress ?? "");
+                    command.Parameters.AddWithValue("@City", eventItem.City ?? "");
+                    command.Parameters.AddWithValue("@StateProvince", eventItem.StateProvince ?? "");
+                    command.Parameters.AddWithValue("@MaximumCapacity", eventItem.MaximumCapacity);
+                    command.Parameters.AddWithValue("@CurrentRegistrations", eventItem.CurrentRegistrations);
+                    command.Parameters.AddWithValue("@OrgContact", eventItem.OrgContact ?? "");
+                    command.Parameters.AddWithValue("@OrgEmail", eventItem.OrgEmail ?? "");
+                    command.Parameters.AddWithValue("@OrgWeb", eventItem.OrgWeb ?? "");
+                    command.Parameters.AddWithValue("@RegularPrice", eventItem.RegularPrice);
+                    command.Parameters.AddWithValue("@EarlyBirdPrice", eventItem.EarlyBirdPrice);
+                    command.Parameters.AddWithValue("@VipPrice", eventItem.VipPrice);
+                    command.Parameters.AddWithValue("@IsFreeEvent", eventItem.IsFreeEvent);
+
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while adding event: {ex.Message}");
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteEvent(int eventId)
+        {
+            var db = DatabaseManager.Instance;
+            var query = "DELETE FROM Events WHERE EventId = @EventId";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@EventId", eventId);
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    return rowsAffected > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while deleting event: {ex.Message}");
+                return false;
+            }
+        }
+
+        //public static void AddEvent(Event e)
+        //{
+        //    Events.Add(e);
+        //}
+
+        public async Task<Event> GetEventById(int eventId)
+        {
+            var db = DatabaseManager.Instance;
+            var query = "SELECT * FROM Events WHERE EventId = @EventId";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@EventId", eventId);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new Event
+                            {
+                                //EventId = Convert.ToInt32(reader["EventId"]),
+                                EventName = reader["EventName"] == DBNull.Value ? "" : reader["EventName"].ToString(),
+                                EventType = reader["EventType"] == DBNull.Value ? "" : reader["EventType"].ToString(),
+                                Category = reader["Category"] == DBNull.Value ? "" : reader["Category"].ToString(),
+                                Description = reader["Description"] == DBNull.Value ? "" : reader["Description"].ToString(),
+                                EventDate = Convert.ToDateTime(reader["EventDate"]),
+                                StartTime = (TimeSpan)(reader["StartTime"]),
+                                EndTime = (TimeSpan)(reader["EndTime"]),
+                                VenueName = reader["VenueName"] == DBNull.Value ? "" : reader["VenueName"].ToString(),
+                                StreetAddress = reader["StreetAddress"] == DBNull.Value ? "" : reader["StreetAddress"].ToString(),
+                                City = reader["City"] == DBNull.Value ? "" : reader["City"].ToString(),
+                                StateProvince = reader["StateProvince"] == DBNull.Value ? "" : reader["StateProvince"].ToString(),
+                                MaximumCapacity = Convert.ToInt32(reader["MaximumCapacity"]),
+                                CurrentRegistrations = Convert.ToInt32(reader["CurrentRegistrations"]),
+                                OrgContact = reader["OrgContact"] == DBNull.Value ? "" : reader["OrgContact"].ToString(),
+                                OrgEmail = reader["OrgEmail"] == DBNull.Value ? "" : reader["OrgEmail"].ToString(),
+                                OrgWeb = reader["OrgWeb"] == DBNull.Value ? "" : reader["OrgWeb"].ToString(),
+                                RegularPrice = Convert.ToDecimal(reader["RegularPrice"]),
+                                EarlyBirdPrice = Convert.ToDecimal(reader["EarlyBirdPrice"]),
+                                VipPrice = Convert.ToDecimal(reader["VipPrice"]),
+                                IsFreeEvent = Convert.ToBoolean(reader["IsFreeEvent"])
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving event: {ex.Message}");
+            }
+
+            return null;
         }
 
         //methods for events summary
 
-        public static int GetTotalEventCount()
+        public async Task<int> GetTotalEventCount()
         {
-            return Events.Count;
-        }
+            var db = DatabaseManager.Instance;
+            var query = "SELECT COUNT(*) FROM Events";
 
-        public static int GetTotalUpcomingEventCount()
-        {
-            return Events.Count(e => e.Status == "Upcoming");
-
-        }
-
-        public static int GetTotalGuest()
-        {
-            int tGuest = 0; ;
-            foreach (Event e in Events)
+            try
             {
-                tGuest = tGuest + e.Guests;
+                using (var command = db.CreateCommand(query))
+                {
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
+                }
             }
-            return tGuest;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting total event count: {ex.Message}");
+                return 0;
+            }
         }
 
-        public static double getTotalBudget()
+        public async Task<int> GetTotalUpcomingEventCount()
         {
-            return 12000.00;
+            var db = DatabaseManager.Instance;
+            var query = "SELECT COUNT(*) FROM Events WHERE EventDate >= @Today";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@Today", DateTime.Today);
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting upcoming event count: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public async Task<int> GetTotalGuests()
+        {
+            var db = DatabaseManager.Instance;
+            var query = "SELECT SUM(CurrentRegistrations) FROM Events";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    var result = await command.ExecuteScalarAsync();
+                    if (result == DBNull.Value || result == null)
+                        return 0;
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting total guests: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public async Task<double> GetTotalBudget()
+        {
+            var db = DatabaseManager.Instance;
+            var query = "SELECT SUM(RegularPrice * CurrentRegistrations) AS TotalBudget FROM Events";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                {
+                    var result = await command.ExecuteScalarAsync();
+                    if (result == DBNull.Value || result == null)
+                        return 0.00;
+                    return Convert.ToDouble(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting total budget: {ex.Message}");
+                return 0.00;
+            }
         }
 
     }

@@ -89,13 +89,13 @@ namespace Event_Management.ViewModel
         // Constructor
         public EventViewModel()
         {
-            allEvents = Event_Management.TestingModel.EventManager.GetEvents();
+            allEvents = Model.EventManager.GetAllEvents();
             Events = new ObservableCollection<Event>(allEvents);
 
-            TotalEventCount = Event_Management.TestingModel.EventManager.GetTotalEventCount();
-            UpcomingEventCount = Event_Management.TestingModel.EventManager.GetTotalUpcomingEventCount();
-            TotalGuests = Event_Management.TestingModel.EventManager.GetTotalGuest();
-            TotalBudget = Event_Management.TestingModel. EventManager.getTotalBudget();
+            TotalEventCount = Model.EventManager.GetTotalEventCount();
+            UpcomingEventCount = Model.EventManager.GetTotalUpcomingEventCount();
+            TotalGuests = Model.EventManager.GetTotalGuest();
+            TotalBudget = Model. EventManager.getTotalBudget();
 
 
             ViewGuestsCommand = new RelayCommand(OnViewGuests);
