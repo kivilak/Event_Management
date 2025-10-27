@@ -86,7 +86,7 @@ namespace Event_Management
         private void LoadTasksView()
         {
             var tasksControl = new TasksUserControl();
-            tasksControl.EventSelected += NavigateToEventDetails;
+            tasksControl.EventSelected += NavigateToEventDetailsTask;
             _mainContentArea.Content = tasksControl;
         }
 
@@ -111,10 +111,25 @@ namespace Event_Management
             _mainContentArea.Content = reportControl;
         }
 
+        // Navigate to Specific Budget Control
+        public void NavigateToSpecificBudget(Event selectedEvent)
+        {
+            if (selectedEvent == null) return;
+            _mainContentArea.Content = new SpacificBudgetControl(selectedEvent);
+        }
+
+
         // Called when a row is clicked in GuestsUserControl
         public void NavigateToEventDetails(Event selectedEvent)
         {
             var detailsControl = new EventDetailsUserControl(selectedEvent);
+            _mainContentArea.Content = detailsControl;
+        }
+
+        // Called when a row is clicked in GuestsUserControl
+        public void NavigateToEventDetailsTask(Event selectedEvent)
+        {
+            var detailsControl = new EventDetailsTaskUserControl(selectedEvent);
             _mainContentArea.Content = detailsControl;
         }
 
@@ -134,6 +149,14 @@ namespace Event_Management
             var guestsControl = new GuestsUserControl();
             guestsControl.EventSelected += NavigateToEventDetails;
             _mainContentArea.Content = guestsControl;
+        }
+
+        // Navigate to the Task window in many places
+        public void NavigateToTasksView()
+        {
+            var tasksControl = new TasksUserControl();
+            tasksControl.EventSelected += NavigateToEventDetails;
+            _mainContentArea.Content = tasksControl;
         }
     }
 }

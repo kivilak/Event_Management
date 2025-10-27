@@ -70,7 +70,7 @@ public ReportUserControl()
             var generator = new PDFGenerator();
             string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
-            generator.Generate(filePath, eventSummary);
+            //generator.Generate(filePath);
 
             Console.WriteLine($"PDF created at: {filePath}");
         }
