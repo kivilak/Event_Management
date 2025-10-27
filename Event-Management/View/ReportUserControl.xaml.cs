@@ -12,19 +12,26 @@ namespace Event_Management.View
     /// </summary>
     public partial class ReportUserControl : UserControl
     {
-        public List<EventSummary> eventSummary = new List<EventSummary>
-        {
-            new EventSummary { EventName = "Tech Conference 2024", Status = "Upcoming", Guests = 500, Budget = 75000, Spent = 54000 },
-            new EventSummary { EventName = "Product Launch", Status = "In Progress", Guests = 300, Budget = 35000, Spent = 28000 },
-            new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 },
-            new EventSummary { EventName = "Tech Conference 2024", Status = "Ongoing", Guests = 500, Budget = 75000, Spent = 54000 },
-            new EventSummary { EventName = "Product Launch", Status = "Planning", Guests = 300, Budget = 35000, Spent = 28000 },
-            new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 }
-        };
-        public ReportUserControl()
+        ReportsManager reportManager;
+        public List<EventSummary> eventSummary = new List<EventSummary>();
+        //{
+        //    new EventSummary { EventName = "Tech Conference 2024", Status = "Upcoming", Guests = 500, Budget = 75000, Spent = 54000 },
+        //    new EventSummary { EventName = "Product Launch", Status = "In Progress", Guests = 300, Budget = 35000, Spent = 28000 },
+        //    new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 },
+        //    new EventSummary { EventName = "Tech Conference 2024", Status = "Ongoing", Guests = 500, Budget = 75000, Spent = 54000 },
+        //    new EventSummary { EventName = "Product Launch", Status = "Planning", Guests = 300, Budget = 35000, Spent = 28000 },
+        //    new EventSummary { EventName = "Wedding Reception", Status = "Upcoming", Guests = 150, Budget = 40000, Spent = 15000 }
+        //};
+public ReportUserControl()
         {
             InitializeComponent();
-            MainContent.Content = new EventSummaryView(eventSummary);
+            reportManager = new ReportsManager();
+            
+            Loaded += async (s, e) =>
+            {
+                eventSummary = await GetEventsSummary();
+                MainContent.Content = new EventSummaryView(eventSummary);
+            };
         }
 
         private void EventSummary_Click(object sender, RoutedEventArgs e)
@@ -66,6 +73,12 @@ namespace Event_Management.View
             generator.Generate(filePath, eventSummary);
 
             Console.WriteLine($"PDF created at: {filePath}");
+        }
+
+        private async Task<List<EventSummary>> GetEventsSummary()
+        {
+            var result = await reportManager.GetAllEventSummary();
+            return [.. result];
         }
     }
 }
