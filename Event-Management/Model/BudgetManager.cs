@@ -18,8 +18,9 @@ namespace Event_Management.Model
         {
             var budgets = new ObservableCollection<Budget>();
             var db = DatabaseManager.Instance;
-            var query = "SELECT * FROM Budget";
-            //var query = "SELECT BudgetId, Category, Estimated, Actual, Difference, Status, EventId, Event FROM Budget, Event WHERE Budget.EventId = Event.EventId";
+            //var query = "SELECT * FROM Budget";
+            var query = "SELECT b.BudgetId, b.Category, b.Estimated, b.Actual, b.EventId, e.event_name " +
+                        "FROM Budget AS b, events AS e WHERE b.EventId = e.event_id";
 
             try
             {
@@ -32,8 +33,8 @@ namespace Event_Management.Model
                         {
                             BudgetId = Convert.ToInt32(reader["BudgetId"]),
                             Category = reader["Category"]?.ToString(),
-                            Event = "Tech Conference 2024",
-                            //Event = reader["Event"]?.ToString(),
+                            //EventName = "Tech Conference 2024",
+                            EventName = reader["event_name"]?.ToString(),
                             Estimated = Convert.ToDouble(reader["Estimated"]),
                             Actual = Convert.ToDouble(reader["Actual"]),
                             EventId = Convert.ToInt32(reader["EventId"])
@@ -52,16 +53,101 @@ namespace Event_Management.Model
             return budgets;
         }
 
-        public BudgetSummary GetSummary()
+        //public BudgetSummary GetSummary()
+        //{
+        //    // Simulated data — you can later replace with DB query
+        //    return new BudgetSummary
+        //    {
+        //        TotalBudget = 45000,
+        //        Spent = 42500,
+        //        OverBudgetItems = 2
+        //    };
+        //}
+
+        //Get Budget Summary by Event ID
+        public async Task<BudgetSummary> GetSummaryByEventAsync(int eventId)
         {
-            // Simulated data — you can later replace with DB query
-            return new BudgetSummary
+            var db = DatabaseManager.Instance;
+            var query = @"
+                        SELECT 
+                            SUM(Estimated) AS TotalBudget,
+                            SUM(Actual) AS Spent,
+                            SUM(CASE WHEN Actual > Estimated THEN 1 ELSE 0 END) AS OverBudgetItems,
+                            (CASE WHEN SUM(Estimated) > 0 
+                                  THEN (SUM(Actual) * 100.0 / SUM(Estimated)) 
+                                  ELSE 0 END) AS PercentageOfSpent
+                        FROM Budget
+                        WHERE EventId = @EventId";
+
+            try
             {
-                TotalBudget = 45000,
-                Spent = 42500,
-                OverBudgetItems = 2
-            };
+                using (var command = db.CreateCommand(query))
+                {
+                    command.Parameters.AddWithValue("@EventId", eventId);
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            return new BudgetSummary
+                            {
+                                TotalBudget = reader["TotalBudget"] != DBNull.Value ? Convert.ToDouble(reader["TotalBudget"]) : 0,
+                                Spent = reader["Spent"] != DBNull.Value ? Convert.ToDouble(reader["Spent"]) : 0,
+                                OverBudgetItems = reader["OverBudgetItems"] != DBNull.Value ? Convert.ToInt32(reader["OverBudgetItems"]) : 0,
+                                //PercentageOfSpent = reader["PercentageOfSpent"] != DBNull.Value ? Convert.ToDouble(reader["PercentageOfSpent"]) : 0
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving budget summary: {ex.Message}");
+            }
+
+            return new BudgetSummary { TotalBudget = 0, Spent = 0, OverBudgetItems = 0};
         }
+
+        //Get All Budget Summary
+        public async Task<BudgetSummary> GetSummaryAsync()
+        {
+            var db = DatabaseManager.Instance;
+            var query = @"
+                    SELECT 
+                        SUM(Estimated) AS TotalBudget,
+                        SUM(Actual) AS Spent,
+                        SUM(CASE WHEN Actual > Estimated THEN 1 ELSE 0 END) AS OverBudgetItems,
+                        (CASE WHEN SUM(Estimated) > 0 
+                              THEN (SUM(Actual) * 100.0 / SUM(Estimated)) 
+                              ELSE 0 END) AS PercentageOfSpent
+                    FROM Budget";
+
+            try
+            {
+                using (var command = db.CreateCommand(query))
+                using (var reader = await command.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                    {
+                        return new BudgetSummary
+                        {
+                            TotalBudget = reader["TotalBudget"] != DBNull.Value ? Convert.ToDouble(reader["TotalBudget"]) : 0,
+                            Spent = reader["Spent"] != DBNull.Value ? Convert.ToDouble(reader["Spent"]) : 0,
+                            OverBudgetItems = reader["OverBudgetItems"] != DBNull.Value ? Convert.ToInt32(reader["OverBudgetItems"]) : 0,
+                            //PercentageOfSpent = reader["PercentageOfSpent"] != DBNull.Value ? Convert.ToDouble(reader["PercentageOfSpent"]) : 0
+                        };
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving budget summary: {ex.Message}");
+            }
+
+            return new BudgetSummary { TotalBudget = 0, Spent = 0, OverBudgetItems = 0 };
+        }
+
+
+
         public async Task<bool> AddBudget(Budget budget)
         {
             var db = DatabaseManager.Instance;

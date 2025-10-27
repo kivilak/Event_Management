@@ -321,6 +321,11 @@
                                             Style="{StaticResource ActionButtonStyle}"
                                             Command="{Binding DataContext.ViewTasksCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                             CommandParameter="{Binding}"/>
+
+                                        <Button Content="Budget" 
+                                            Style="{StaticResource ActionButtonStyle}"
+                                            Command="{Binding DataContext.ViewBudgetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}"/>
                                     </StackPanel>
                                 </Grid>
                             </Border>

@@ -15,7 +15,9 @@ namespace Event_Management.Model
         {
             var guests = new ObservableCollection<Guest>();
             var db = DatabaseManager.Instance;
-            var query = "SELECT * FROM Guest";
+            //var query = "SELECT * FROM Guest";
+            var query = "SELECT GuestId, Name, Email, Phone, Category, RsvpStatus, Dietary, CheckedIn, EventId " +
+                "FROM Guest";
 
             try
             {

@@ -19,6 +19,8 @@ namespace Event_Management.ViewModel
 
         // Filtered event list bound to UI
         private ObservableCollection<Event> _events;
+
+        private ContentControl _mainContentArea;
         public ObservableCollection<Event> Events
         {
             get => _events;
@@ -82,6 +84,7 @@ namespace Event_Management.ViewModel
 
         public ICommand ViewGuestsCommand { get; }
         public ICommand ViewTasksCommand { get; }
+        public ICommand ViewBudgetCommand { get; }
 
         // Constructor
         public EventViewModel()
@@ -97,6 +100,7 @@ namespace Event_Management.ViewModel
 
             ViewGuestsCommand = new RelayCommand(OnViewGuests);
             ViewTasksCommand = new RelayCommand(OnViewTasks);
+            ViewBudgetCommand = new RelayCommand(OnViewBudget);
 
         }
 
@@ -120,6 +124,29 @@ namespace Event_Management.ViewModel
                 MessageBox.Show($"{selectedEvent.EventName} from Tasks button", "Task Info", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
+
+        //Handle View Budget
+        private void OnViewBudget(object parameter)
+        {
+            //if (parameter is not Event selectedEvent)
+            //    return;
+
+            //if (Application.Current.MainWindow is MainWindow mainWindow)
+            //{
+            //    if(parameter is Event selectedEvent)
+            //    mainWindow.NavigateToSpecificBudget(selectedEvent);
+            //}
+            if (parameter is Event selectedEvent)
+            {
+                if (Application.Current.MainWindow is MainWindow mainWindow)
+                {
+                    MessageBox.Show($"{selectedEvent.Name} ", "Task Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    mainWindow.NavigateToSpecificBudget(selectedEvent);
+                }
+            }
+        }
+
+
 
         // Filtering logic
         private void ApplyFilters()
