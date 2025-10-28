@@ -6,7 +6,7 @@ namespace Event_Management.Model
 {
     public class PDFGenerator
     {
-        public void Generate(string filePath, List<EventSummary> eventSummary)
+        public void Generate(string filePath, List<EventSummary> eventSummary, List<GuestAttendance> guestAttendance)
         {
             QuestPDF.Settings.License = LicenseType.Community;
          
@@ -39,6 +39,9 @@ namespace Event_Management.Model
                     .Column(column =>
                     {
                         column.Item().Element(container => CreateEventSummaryTable(container, eventSummary));
+                        column.Item().PageBreak();
+                        //column.Item().PaddingTop(20);
+                        column.Item().Element(container => CreateGuestAttendanceTable(container, guestAttendance));
                     });
 
                     page.Footer()
@@ -95,6 +98,58 @@ namespace Event_Management.Model
                     }
                 });
             });
+        }
+
+        public void CreateGuestAttendanceTable(IContainer container, List<GuestAttendance> guestAttendance)
+        {
+            container.Column(column =>
+            {
+                column.Item().Text("Guest Attendance Report")
+               .FontSize(18)
+               .Bold();
+
+                column.Item().PaddingTop(10).Table(table =>
+                {
+                    table.ColumnsDefinition(columns =>
+                    {
+                        columns.RelativeColumn(3);
+                        columns.RelativeColumn(1.5f);
+                        columns.RelativeColumn(1.5f);
+                        columns.RelativeColumn(1.5f);
+                        columns.RelativeColumn(1.5f);
+                        columns.RelativeColumn(2);
+                    });
+
+                    table.Header(header =>
+                    {
+                        header.Cell().Element(CellStyle).Text("Event Name").Bold();
+                        header.Cell().Element(CellStyle).Text("Invited").Bold();
+                        header.Cell().Element(CellStyle).Text("Confirmed").Bold();
+                        header.Cell().Element(CellStyle).Text("Declined").Bold();
+                        header.Cell().Element(CellStyle).Text("Pending").Bold();
+                        header.Cell().Element(CellStyle).Text("Response Rate").Bold();
+                    });
+
+                    foreach (var item in guestAttendance)
+                    {
+                        table.Cell().Element(CellStyle).Text(item.EventName ?? "");
+                        table.Cell().Element(CellStyle).Text(item.Invited.ToString());
+                        table.Cell().Element(CellStyle).Text(item.Confirmed.ToString());
+                        table.Cell().Element(CellStyle).Text(item.Declined.ToString());
+                        table.Cell().Element(CellStyle).Text(item.Pending.ToString());
+                        table.Cell().Element(CellStyle).Text(GetResponseRateText(item));
+                    }
+                });
+            });
+        }
+
+        private static string GetResponseRateText(GuestAttendance item)
+        {
+            if (item.Invited == 0)
+            {
+                return "N/A";
+            }
+            return $"{item.ResponseRate:F1}%";
         }
 
         static IContainer CellStyle(IContainer container)
