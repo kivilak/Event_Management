@@ -34,7 +34,7 @@
 
 
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Event" Binding="{Binding Event}" Width="3*" />
+                    <DataGridTextColumn Header="Event" Binding="{Binding EventName}" Width="3*" />
                     <DataGridTextColumn Header="Invited" Binding="{Binding Invited}" Width="*" />
                     <DataGridTextColumn Header="Confirmed" Binding="{Binding Confirmed}" Width="1.5*" Foreground="Green"/>
                     <DataGridTextColumn Header="Declined" Binding="{Binding Declined}" Width="1.5*" Foreground="Red" />
