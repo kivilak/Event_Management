@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.ConstrainedExecution;
+using Event_Management.Model;
 using Event_Management.Commands;
 
 namespace Event_Management.ViewModel
@@ -169,6 +171,7 @@ namespace Event_Management.ViewModel
             set { isFreeEvent = value; OnPropertyChanged(nameof(IsFreeEvent)); }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -183,37 +186,105 @@ namespace Event_Management.ViewModel
         {
             SaveCommand = new RelayCommand(_=>Save());
             ClearCommand = new RelayCommand(_=>Clear());
+
+            // Populate dropdowns
+            EventTypeOptions = new ObservableCollection<string>
+            {
+                "Conference", "Workshop", "Webinar", "Seminar", "Training", "Meeting", "Fundraiser"
+            };
+
+            EventType = EventTypeOptions[0];
+
         }
 
-        private static void Save()
+        // Task fields
+        
+
+        public ObservableCollection<string> EventTypeOptions { get; }
+
+        private async void Save()
         {
-            //nedd to implement the logic to save the event details,call the method from EventManager class (addEvent mrthod)
-            System.Windows.MessageBox.Show("Event Saved Successfully!", "Success");
+            try
+            {
+                if (!TimeSpan.TryParse(StartTime, out TimeSpan parsedStartTime))
+                {
+                    System.Windows.MessageBox.Show("Invalid start time format. Please use hh:mm.", "Error");
+                    return;
+                }
+                if (!TimeSpan.TryParse(EndTime, out TimeSpan parsedEndTime))
+                {
+                    System.Windows.MessageBox.Show("Invalid end time format. Please use hh:mm.", "Error");
+                    return;
+                }
+
+                EventManager eventmananger = new EventManager();
+                Event newEvent = new Event
+                {
+                    event_name = EventName,
+                    event_type = EventType,
+                    category = Category,
+                    description = Description,
+                    event_date = EventDate ?? DateTime.Today,
+                    start_time = parsedStartTime,
+                    end_time = parsedEndTime,
+                    venue_name = VenueName,
+                    street_address = Street,
+                    city = City,
+                    state_province = State,
+                    maximum_capacity = MaximumCapacity,
+                    current_registrations = CurrentRegistrations,
+                    email = Email,
+                    event_web = Website,
+                    phone_number = Phone,
+                    regular_price = RegularPrice,
+                    early_bird_price = EarlyBirdPrice,
+                    vip_price = VipPrice,
+                    is_free_event = IsFreeEvent
+                };
+
+                newEvent.SetTagsFromString(Tags);
+
+                bool check = await eventmananger.AddEvent(newEvent);
+                if (check)
+                {
+                    System.Windows.MessageBox.Show("Event Saved Successfully!", "Success");
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("Failed to save the event.", "Error");
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"An error occurred: {ex.Message}");
+            }
         }
 
-        private static void Clear()
+
+        private void Clear()
         {
-            //EventName = string.Empty;
-            //EventType = string.Empty;
-            //Category = string.Empty;
-            //Tags = string.Empty;
-            //Description = string.Empty;
-            //EventDate = null;
-            //StartTime = string.Empty;
-            //EndTime = string.Empty;
-            //VenueName = string.Empty;
-            //City = string.Empty;
-            //State = string.Empty;
-            //MaximumCapacity = 0;
-            //CurrentRegistrations = 0;
-            //AllowWaitlist = false;
-            //Email = string.Empty;
-            //Website = string.Empty;
-            //Phone = string.Empty;
-            //RegularPrice = 0;
-            //EarlyBirdPrice = 0;
-            //VipPrice = 0;
-            //IsFreeEvent = false;
+            EventName = string.Empty;
+            EventType = string.Empty;
+            Category = string.Empty;
+            Tags = string.Empty;
+            Description = string.Empty;
+            EventDate = null;
+            StartTime = string.Empty;
+            EndTime = string.Empty;
+            VenueName = string.Empty;
+            City = string.Empty;
+            State = string.Empty;
+            MaximumCapacity = 0;
+            CurrentRegistrations = 0;
+            AllowWaitlist = false;
+            Email = string.Empty;
+            Website = string.Empty;
+            Phone = string.Empty;
+            RegularPrice = 0;
+            EarlyBirdPrice = 0;
+            VipPrice = 0;
+            IsFreeEvent = false;
             System.Windows.MessageBox.Show("Clear the form", "Success");
         }
     }

@@ -41,14 +41,9 @@
 
                         <!--Event Type-->
                         <Label Content="Event Type *" Grid.Row="0" Grid.Column="1" FontWeight="SemiBold"/>
-                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="0,25,0,15" SelectedItem="{Binding EventType}" Height="30">
-                            <ComboBoxItem Content="Conference"/>
-                            <ComboBoxItem Content="Workshop"/>
-                            <ComboBoxItem Content="Webinar"/>
-                            <ComboBoxItem Content="Seminar"/>
-                            <ComboBoxItem Content="Training"/>
-                            <ComboBoxItem Content="Meeting"/>
-                        </ComboBox>
+                        <ComboBox  ItemsSource="{Binding EventTypeOptions}"  Grid.Row="0" Grid.Column="1" Margin="0,25,0,15" SelectedItem="{Binding EventType , Mode=TwoWay}" Height="30" FontSize="14"
+                          BorderBrush="#D0D7DE" BorderThickness="1"
+                          Background="#FAFBFC" Foreground="Black"/>
 
                         <!--Category and Tags-->
                         <Label Content="Category" Grid.Row="1" Grid.Column="0" FontWeight="SemiBold"/>
