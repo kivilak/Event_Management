@@ -17,7 +17,7 @@ namespace Event_Management.Model
 
         private DatabaseManager()
         {
-            dbString = Secret.Instance.GetURL();
+            dbString = ExampleSecret.Instance.GetURL();
             connection = new SqlConnection(dbString);
         }
 
