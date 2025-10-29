@@ -14,6 +14,7 @@ namespace Event_Management.View
     {
         ReportsManager reportManager;
         public List<EventSummary> eventSummary = new List<EventSummary>();
+        public List<GuestAttendance> guestAttendances = new List<GuestAttendance>();
         //{
         //    new EventSummary { EventName = "Tech Conference 2024", Status = "Upcoming", Guests = 500, Budget = 75000, Spent = 54000 },
         //    new EventSummary { EventName = "Product Launch", Status = "In Progress", Guests = 300, Budget = 35000, Spent = 28000 },
@@ -30,6 +31,7 @@ public ReportUserControl()
             Loaded += async (s, e) =>
             {
                 eventSummary = await GetEventsSummary();
+                guestAttendances = await GetGuestAttendances();
                 MainContent.Content = new EventSummaryView(eventSummary);
             };
         }
@@ -41,7 +43,7 @@ public ReportUserControl()
 
         private void GuestAttendance_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new GuestAttendanceView();
+            MainContent.Content = new GuestAttendanceView(guestAttendances);
         }
 
         private void TaskProgress_Click(object sender, RoutedEventArgs e)
@@ -64,13 +66,13 @@ public ReportUserControl()
             ExportToPdf();
         }
 
-        // In your controller or main method
+        
         public void ExportToPdf()
         {
             var generator = new PDFGenerator();
             string filePath = "C:\\Users\\User\\Desktop\\People.pdf";
 
-            //generator.Generate(filePath);
+            generator.Generate(filePath, eventSummary, guestAttendances);
 
             Console.WriteLine($"PDF created at: {filePath}");
         }
@@ -78,6 +80,12 @@ public ReportUserControl()
         private async Task<List<EventSummary>> GetEventsSummary()
         {
             var result = await reportManager.GetAllEventSummary();
+            return [.. result];
+        }
+
+        private async Task<List<GuestAttendance>> GetGuestAttendances()
+        {
+            var result = await reportManager.GetAllGuestAttendance();
             return [.. result];
         }
     }

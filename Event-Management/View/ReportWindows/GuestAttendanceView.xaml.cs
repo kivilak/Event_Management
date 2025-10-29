@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Event_Management.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,15 +21,16 @@ namespace Event_Management.View.ReportWindows
     /// </summary>
     public partial class GuestAttendanceView : UserControl
     {
-        public GuestAttendanceView()
+        public GuestAttendanceView(List<GuestAttendance> guestAttendance)
         {
             InitializeComponent();
-            attendanceGrid.ItemsSource = new List<dynamic>
-            {
-                new { Event = "Tech Conference 2024", Invited = 500, Confirmed = 425, Declined = 50, Pending = 25, ResponseRate = "95.0%" },
-                new { Event = "Product Launch", Invited = 300, Confirmed = 180, Declined = 50, Pending = 70, ResponseRate = "76.7%" },
-                new { Event = "Wedding Reception", Invited = 150, Confirmed = 120, Declined = 20, Pending = 10, ResponseRate = "93.3%" }
-            };
+            attendanceGrid.ItemsSource = guestAttendance;
+            //attendanceGrid.ItemsSource = new List<GuestAttendance>
+            //{
+            //    new GuestAttendance { EventName = "Tech Conference 2024", Invited = 500, Confirmed = 425, Declined = 50, Pending = 25 },
+            //    new GuestAttendance { EventName = "Product Launch", Invited = 300, Confirmed = 180, Declined = 50, Pending = 70 },
+            //    new GuestAttendance { EventName = "Wedding Reception", Invited = 150, Confirmed = 120, Declined = 20, Pending = 10 }
+            //};
         }
     }
 }
