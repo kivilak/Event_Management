@@ -3,7 +3,7 @@
     internal class ExampleSecret //Rename this class name to Secret and replace URL
     {
         private static readonly Lazy<ExampleSecret> instance = new Lazy<ExampleSecret>(() => new ExampleSecret());
-        private string URL = "Server=MSI\\SQLEXPRESS;Database=Event-Management;Integrated Security=SSPI;TrustServerCertificate=True;";
+        private string URL = "Server=LAPTOP-HTBNMGAH\\SQLEXPRESS;Database=Event-Management;Integrated Security=SSPI;TrustServerCertificate=True;";
         private ExampleSecret()
         {
 

@@ -20,7 +20,7 @@ namespace Event_Management.Model
         {
             var events = new ObservableCollection<Event>();
             var db = DatabaseManager.Instance;
-            var query = "SELECT event_id, event_name, event_type FROM events";
+            var query = "SELECT event_id, event_name, event_type, category, description, event_date, start_time, end_time, venue_name, street_address, city, state_province, maximum_capacity, current_registrations  FROM events";
 
             try
             {
